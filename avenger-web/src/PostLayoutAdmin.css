@@ -1,13 +1,10 @@
-body{
-  margin-left: 0px;
-  padding: 10px;
-}
+
 
 .header-container{
   width: 100vw;
   display: flex;
   justify-content: space-evenly;
-  height: 12vh;
+  height: 5vw;
   align-items: center;
   
 }
@@ -16,17 +13,50 @@ body{
   font-family: "Avengence";
   font-size: 4vw;
   margin-left: 35vw;
-  margin-right: 35vw;
+  margin-right: 32vw;
 }
 
 .profile-div{
-  
+  display: flex;
+  align-items: center;
   margin-right: 3vw;
   font-family: sans-serif;
   font-weight: bold;
   font-style: italic;
   font-size: 1.5vw;
+  gap: 10px;
   
+}
+
+.mail-button{
+  background-color: black;
+  color: white;
+  border: none;
+  font-size: 2.5vw;
+  
+  cursor: pointer;
+}
+.body-card{
+  display: flex;
+ 
+}
+
+.title-container{
+  width: 65vw;
+  text-align: left;
+  color: #A21010;
+  
+}
+
+hr {
+  border: none;
+  height: 2px;
+  background-color: #A21010;
+}
+
+
+.red-title{
+  height: clamp(10px, -10vh, 40px)
 }
 
 
