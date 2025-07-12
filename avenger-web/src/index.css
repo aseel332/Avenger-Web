@@ -1,0 +1,55 @@
+
+@font-face {
+  font-family: 'Avengence';
+  src: url('/fonts/Avengeance.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'American';
+  src: url('/fonts/AmericanCaptain.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body{
+  display: flex;
+  background-color: black;
+  color: white;
+  padding: 10px;
+  margin-left: 20px;
+  display: flex;
+}
+.container-prelayout{
+  display: flex;
+}
+.avenger-title{
+  position: relative;
+  font-family: 'Avengence';
+  font-size: clamp(22px, 4vw, 100px);
+  font-style: italic;
+  
+ 
+ margin-bottom: -3vmin;
+}
+
+.avenger-sub-title{
+  position: relative;
+  font-size: clamp(15px, 2vw, 60px);
+  font-family: 'Avengence';
+  letter-spacing: 1.1px;
+  word-spacing: 5px;
+}
+
+.left-main{
+  width: 50vw;
+  border-right: 2px;
+  border-color: white;
+  border-right: 1.5px solid white;
+}
+
+.right-main{
+  text-align: center;
+  width: 50vw;
+  padding-top: clamp(40px, 5vh, 60px);
+}
