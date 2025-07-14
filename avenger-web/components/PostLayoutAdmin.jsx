@@ -23,7 +23,9 @@ export default function PostLayoutAdmin(){
     {header}
     </div>
     <div className="body-card">
+    <div>
     {<MissionsGlobe />}
+    </div>
     </div>
     </>
   )

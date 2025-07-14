@@ -61,5 +61,44 @@ hr {
 
 
 
+.globe-container{
+  position: relative;
+  background-image: url('./assets/globe.png') ;
+  height: max(55vh, 35vw);
+  width: max(75vh, 60vw);
+  background-repeat: no-repeat;
+  background-size: 60% 100%;
+  background-position: center;
+  border-radius: 50%;  /* makes sure it's visually a circle */
+  overflow: hidden;
+  
+}
+
+.mission-popup{
+  text-align: center;
+  font-family: sans-serif;
+  width: fit-content;
+  position: absolute;
+}
+
+.mission-popup-icon{
+  height: min(clamp(20px, 6vh, 30px), clamp(20px, 2vw, 30px));
+  margin-bottom: clamp(-15px, -2vh, -15px);
+}
+
+.mission-name{
+  background-color: rgba(0, 0, 0, 0.8);
+  display: inline-block;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 8px;
+  color: #A21010;
+}
+
+
+
+
+
+
 
 
