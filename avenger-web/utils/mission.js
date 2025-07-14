@@ -55,25 +55,29 @@ export function generateMissionsWithPositions(container) {
       name: "Thanos Snapped",
       color: "#A21010",
       icon: "../src/assets/critical.png",
-      description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r"
+      description: "Today, In missouri, thanos landed in a cold ship. Bro decided to vanish half of the population ",
+      needed: 3
     },
     {
-      name: "Thanos Snapped",
-      color: "#A21010",
-      icon: "../src/assets/critical.png",
-      description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r"
+      name: "Ultron Detected",
+      color: "yellow",
+      icon: "../src/assets/in-progress.png",
+      description: "So Ultron is a bitch ass mother fucker, he is  the biggest idion in the world, bro had acess to the entire internet but couldn't do shit. SUCH A FAILURE",
+      needed: 3
     },
     {
-      name: "Thanos Snapped",
-      color: "#A21010",
-      icon: "../src/assets/critical.png",
-      description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r"
+      name: "Maddock",
+      color: "green",
+      icon: "../src/assets/green-tick.png",
+      description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r",
+      needed: 3
     },
     {
-      name: "Thanos Snapped",
-      color: "#A21010",
-      icon: "../src/assets/critical.png",
-      description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r"
+      name: "Dr. Doom",
+      color: "white",
+      icon: "../src/assets/skull.png",
+      description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r",
+      needed: 3
     }
   ];
 

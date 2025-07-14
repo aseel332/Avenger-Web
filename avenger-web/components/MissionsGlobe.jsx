@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { generateMissionsWithPositions } from '../utils/mission.js';
+import MissionsList from "./MissionsList.jsx";
 
 export default function MissionsGlobe(){
 
@@ -40,12 +41,16 @@ export default function MissionsGlobe(){
           return(
             <div className="mission-popup" key={missionIndex} style={{
               left: `${mission.position.x}px`,
-              top: `${mission.position.y}px`
+              top: `${mission.position.y}px`,
+              color: `${mission.color}`
             }}>
               <Missions mission={mission} />
             </div>
           ) 
         })}
+      </div>
+      <div className="mission-list">
+        <MissionsList missions={missions}/>
       </div>
     </div>
     </>

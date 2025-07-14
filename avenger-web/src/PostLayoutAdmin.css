@@ -92,13 +92,126 @@ hr {
   padding: 5px;
   font-size: 14px;
   border-radius: 8px;
-  color: #A21010;
+  
 }
 
+.mission-button-container{
+  margin-top: 30px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
 
+.type-image{
+  height: 20px;
+}
 
+.type-button{
+  display: flex;
+  background-color: black;
+  justify-content: center;
+  border: none;
+  gap: 6px;
+  align-items: center;
+  text-align: center;
+  width:max-content;
+  border: 2px solid #262626;
+  width: 140px;
+  height: 40px;
+  font-weight: bold;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+}
 
+.mission-list-container{
+  margin-top: 40px;
+  font-family: sans-serif;
+  
+ 
+}
 
+.mission-card{
+  display: flex;
+  margin-bottom: 35px;
+  
+}
 
+.mission-card-body{
+  display: flex;
+  align-items:flex-start ;
+  gap: 20px;
+  width: 85vw;
 
+  
+}
+ .mission-img{
+  height: clamp(60px, 6vw, 127px);
+  width:  clamp(60px, 6vw, 127px);
+ }
 
+ .mission-info{
+  
+ 
+ }
+
+ .mission-card-name{
+  margin-top: 5px;
+  font-size: clamp(18px, 1.7vw, 26px);
+  font-weight: bold;
+ }
+
+ .needed-info{
+  margin-left: clamp(20px, 6vw, 150px);;
+  font-size: clamp(12px, 1.3vw, 19px);
+  font-weight: 20;
+  color: rgba(155, 155, 155, 0.8);
+  margin-top: 6px;
+ }
+
+ .needed-num{
+  font-size: clamp(18px, 1.7vw, 26px);
+  color: white;
+  font-style: italic;
+  margin-left: 5px;
+  font-weight: bold;
+ }
+
+ .mission-sub-info{
+  display: flex;
+  gap: clamp(50px, 8vw, 200px);
+ }
+
+ .loc-time-container{
+
+  line-height: clamp(15px, 1.5vw, 18px);
+  margin-left: 5px;
+  margin-top: -16px;
+  font-size: clamp(10px, 1.0vw, 15px);
+ }
+
+ .loc-time{
+  font-weight: bold;
+ }
+
+ .mission-description{
+  margin-top: -16px;
+  line-height: clamp(15px, 1.5vw, 18px);
+  font-size: clamp(12px, 1.1vw, 17px);
+  width: 38vw;
+  color: rgba(255, 255, 255, 0.776)
+ }
+
+ .assign-button{
+  font-size: clamp(18px, 1.7vw, 26px);
+  font-weight: bold;
+  width: clamp(100px ,9.5vw, 300px);
+  margin-right: 20px;
+  height: 50px;
+  align-self: center;
+  cursor: pointer;
+  background-color: #A21010;
+  color: white;
+  border: 1.6px solid white;
+  border-radius: 8px;
+ }
