@@ -1,102 +1,101 @@
 // missions.js
-const CONTAINER_WIDTH = 600;
-const CONTAINER_HEIGHT = 400;
-const CHILD_SIZE = 80; // larger popups
-const SAFE_DISTANCE = 90; // increase spacing
+export function generateMissionsWithPositions(container) {
+  const containerWidth = container.clientWidth;
+  const containerHeight = container.clientHeight;
+  const childSize = Math.max(containerWidth, containerHeight) * 0.1; // scale with container
+  const safeDistance = childSize * 4;
 
-const LEFT_OFFSET = 50; // shift all positions to right
-const TOP_OFFSET = 0;  // shift all positions downward
+  const placedPositions = [];
 
-function isInsideCircle(pos) {
-  const centerX = CONTAINER_WIDTH / 2;
-  const centerY = CONTAINER_HEIGHT / 2;
-  const radius = CONTAINER_WIDTH / 2;
+  function isInsideCircle(pos) {
+    const centerX = containerWidth / 2;
+    const centerY = containerHeight / 2;
+    const radius = Math.min(containerWidth, containerHeight) / 2;
 
-  const childCenterX = pos.x + CHILD_SIZE / 2;
-  const childCenterY = pos.y + CHILD_SIZE / 2;
+    const childCenterX = pos.x + childSize / 2;
+    const childCenterY = pos.y + childSize / 2;
 
-  return (childCenterX - centerX) ** 2 + (childCenterY - centerY) ** 2 <= (radius - CHILD_SIZE / 2) ** 2;
-}
-
-function isOverlapping(pos, placed) {
-  for (const p of placed) {
-    const dx = pos.x - p.x;
-    const dy = pos.y - p.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    if (distance < SAFE_DISTANCE) {
-      return true;
-    }
+    return (childCenterX - centerX) ** 2 + (childCenterY - centerY) ** 2 <= (radius - childSize / 2) ** 2;
   }
-  return false;
-}
 
-function generatePosition(placed) {
-  let pos;
-  let attempts = 0;
-  do {
-    pos = {
-      x: LEFT_OFFSET + Math.random() * (CONTAINER_WIDTH - CHILD_SIZE),
-      y: TOP_OFFSET + Math.random() * (CONTAINER_HEIGHT - CHILD_SIZE)
-    };
-    attempts++;
-    if (attempts > 1000) break;
-  } while (!isInsideCircle(pos) || isOverlapping(pos, placed));
+  function isOverlapping(pos) {
+    for (const p of placedPositions) {
+      const dx = pos.x - p.x;
+      const dy = pos.y - p.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < safeDistance) {
+        return true;
+      }
+    }
+    return false;
+  }
 
-  return pos;
-}
+  function generatePosition() {
+    let pos;
+    let attempts = 0;
+    do {
+      pos = {
+        x: Math.random() * (containerWidth - childSize),
+        y: Math.random() * (containerHeight - childSize)
+      };
+      attempts++;
+      if (attempts > 1000) break;
+    } while (!isInsideCircle(pos) || isOverlapping(pos));
 
-function getPositions(missionCount) {
-  const cache = JSON.parse(localStorage.getItem('missionPositions'));
+    return pos;
+  }
+
+  // check local storage for same shape and use it
+  const cacheKey = `missionPositions-${containerWidth}x${containerHeight}`;
+  const cache = JSON.parse(localStorage.getItem(cacheKey));
   const now = Date.now();
 
-  if (cache && now - cache.timestamp < 5 * 60 * 1000 && cache.positions.length === missionCount) {
-    return cache.positions;
+   const missions = [
+    {
+      name: "Thanos Snapped",
+      color: "#A21010",
+      icon: "../src/assets/critical.png",
+      description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r"
+    },
+    {
+      name: "Thanos Snapped",
+      color: "#A21010",
+      icon: "../src/assets/critical.png",
+      description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r"
+    },
+    {
+      name: "Thanos Snapped",
+      color: "#A21010",
+      icon: "../src/assets/critical.png",
+      description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r"
+    },
+    {
+      name: "Thanos Snapped",
+      color: "#A21010",
+      icon: "../src/assets/critical.png",
+      description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r"
+    }
+  ];
+
+  if (cache && now - cache.timestamp < 5 * 60 * 1000 && cache.positions.length === missions.length) {
+    cache.positions.forEach((pos, i) => {
+      missions[i].position = pos;
+    });
+    return missions;
   }
 
   const positions = [];
-  for (let i = 0; i < missionCount; i++) {
-    const pos = generatePosition(positions);
+  for (let i = 0; i < missions.length; i++) {
+    const pos = generatePosition();
     positions.push(pos);
+    missions[i].position = pos;
   }
 
-  localStorage.setItem('missionPositions', JSON.stringify({
+  localStorage.setItem(cacheKey, JSON.stringify({
     timestamp: now,
     positions
   }));
 
-  return positions;
+  return missions;
 }
 
-const missions = [
-  {
-    name: "Thanos Snapped",
-    color: "#A21010",
-    icon: "../src/assets/critical.png",
-    description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r"
-  },
-  {
-    name: "Thanos Snapped",
-    color: "#A21010",
-    icon: "../src/assets/critical.png",
-    description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r"
-  },
-  {
-    name: "Thanos Snapped",
-    color: "#A21010",
-    icon: "../src/assets/critical.png",
-    description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r"
-  },
-  {
-    name: "Thanos Snapped",
-    color: "#A21010",
-    icon: "../src/assets/critical.png",
-    description: "NFR#iriuOIen e#Iubbf3rnfnui 3fb23unfuir if32nfin2uifn 9if3rhbgbi4r"
-  }
-];
-
-const positions = getPositions(missions.length);
-missions.forEach((mission, i) => {
-  mission.position = positions[i];
-});
-
-export { missions };

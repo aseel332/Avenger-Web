@@ -1,5 +1,17 @@
-import { missions } from '../utils/mission.js'
+import React, { useRef, useEffect, useState } from "react";
+import { generateMissionsWithPositions } from '../utils/mission.js';
+
 export default function MissionsGlobe(){
+
+  const containerRef = useRef(null);
+  const [missions, setMissions] = useState([]);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const generated = generateMissionsWithPositions(containerRef.current);
+      setMissions(generated);
+    }
+  }, []);
 
   function Missions(props){
     const { mission } = props;
@@ -23,7 +35,7 @@ export default function MissionsGlobe(){
     {header}
     
     <div className="mission-body">
-      <div className="globe-container">
+      <div className="globe-container" ref={containerRef}>
         {missions.map((mission, missionIndex) => {
           return(
             <div className="mission-popup" key={missionIndex} style={{
