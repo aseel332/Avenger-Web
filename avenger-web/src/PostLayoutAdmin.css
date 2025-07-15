@@ -56,7 +56,22 @@ hr {
 
 
 .red-title{
-  height: clamp(10px, -10vh, 40px)
+  height: clamp(10px, -10vh, 40px);
+  display: flex;
+  gap: clamp(30px, 45vw, 700px);
+}
+
+.add-button{
+  height: clamp(20px, 7vh, 100px);
+  width: 10vw;
+  background-color: black;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 1.5vw;
+  font-weight: bold;
+  font-style: italic;
+  margin-top: 3px;
 }
 
 
@@ -69,8 +84,8 @@ hr {
   background-repeat: no-repeat;
   background-size: 60% 100%;
   background-position: center;
-  border-radius: 50%;  /* makes sure it's visually a circle */
-  overflow: hidden;
+
+  
   
 }
 
@@ -79,6 +94,11 @@ hr {
   font-family: sans-serif;
   width: fit-content;
   position: absolute;
+  cursor: pointer;
+}
+
+.mission-popup:hover .mission-hover{
+  display: block;
 }
 
 .mission-popup-icon{
@@ -134,7 +154,14 @@ hr {
 .mission-card{
   display: flex;
   margin-bottom: 35px;
-  
+  transition: background-color 0.5s;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 5px;
+}
+
+.mission-card.highlight {
+  background-color: rgba(94, 94, 94, 0.619); /* light yellow highlight */
 }
 
 .mission-card-body{
@@ -215,3 +242,24 @@ hr {
   border: 1.6px solid white;
   border-radius: 8px;
  }
+
+ .mission-hover{
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 110%;
+  width: 20vw;
+  background: rgba(255, 255, 255, 0.815);
+  color: black;
+  border-radius: 15px;
+  padding: 10px;
+  text-align: left;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+ }
+
+ 
+
+.type-button.active-type{
+  background-color: rgba(78, 78, 78, 0.646);
+}
