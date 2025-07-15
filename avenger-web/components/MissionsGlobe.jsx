@@ -31,11 +31,14 @@ export default function MissionsGlobe(){
   };
 
   useEffect(() => {
-    if (containerRef.current) {
-      const generated = generateMissionsWithPositions(containerRef.current);
-      setMissions(generated);
+   async function loadMissions() {
+      if (containerRef.current) {
+        const missionsData = await generateMissionsWithPositions(containerRef.current);
+        setMissions(missionsData);
+      }
     }
-  }, []);
+    loadMissions();
+  }, [addMissionModal]);
 
   function Missions(props){
     const { mission } = props;

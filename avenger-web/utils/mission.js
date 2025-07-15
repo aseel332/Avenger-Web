@@ -1,8 +1,8 @@
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 
 // missions.js
-export function generateMissionsWithPositions(container) {
+export async  function generateMissionsWithPositions(container) {
   const containerWidth = container.clientWidth;
   const containerHeight = container.clientHeight;
   const childSize = Math.max(containerWidth, containerHeight) * 0.1; // scale with container
@@ -53,7 +53,7 @@ export function generateMissionsWithPositions(container) {
   const cache = JSON.parse(localStorage.getItem(cacheKey));
   const now = Date.now();
 
-   const missions = [
+   const missions = await getMissions() || [
     {
       name: "Thanos Snapped",
       color: "#A21010",
@@ -96,6 +96,9 @@ export function generateMissionsWithPositions(container) {
     }
   ];
 
+  console.log(missions);
+
+
   if (cache && now - cache.timestamp < 5 * 60 * 1000 && cache.positions.length === missions.length) {
     cache.positions.forEach((pos, i) => {
       missions[i].position = pos;
@@ -134,6 +137,14 @@ export async function addMission(mission) {
   const docRef = await addDoc(missionRef, mission);
   console.log("Missions added with Id: ", docRef.id);
   return docRef.id;
+}
+
+async function getMissions(){
+  const querySnapShot = await getDocs(collection(db, "missions"));
+  return querySnapShot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
 }
 
 
