@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { generateMissionsWithPositions } from '../utils/mission.js';
 import MissionsList from "./MissionsList.jsx";
 import AddMission from "./AddMission.jsx";
+import AssignModal from "./AssignModal.jsx";
 
 export default function MissionsGlobe(){
 
@@ -10,9 +11,14 @@ export default function MissionsGlobe(){
   const missionsRefs = useRef([]);
   const [missionType, setMissionType] = useState("All");
   const [addMissionModal, setAddMissionModal] = useState(false);
+  const [showAssignModal, setShowAssignModal] = useState(-1);
 
   function handleCloseAddMission(){
     setAddMissionModal(false);
+  }
+
+  function handleCloseAssignModal(){
+    setShowAssignModal(-1);
   }
 
 
@@ -63,6 +69,7 @@ export default function MissionsGlobe(){
     <>
     {addMissionModal && <AddMission handleCloseAddMission={handleCloseAddMission}/>}
     {header}
+    {(showAssignModal !== -1) && <AssignModal showAssignModal={showAssignModal} handleCloseAssignModal={handleCloseAssignModal} missions={missions} />}
     
     <div className="mission-body">
       <div className="globe-container" ref={containerRef}>
@@ -98,7 +105,7 @@ export default function MissionsGlobe(){
         )
       })}
     </div>
-        <MissionsList missions={missions} missionsRefs={missionsRefs} missionType={missionType}/>
+        <MissionsList setShowAssignModal={setShowAssignModal} showAssignModal={showAssignModal} missions={missions} missionsRefs={missionsRefs} missionType={missionType}/>
       </div>
     </div>
     </>

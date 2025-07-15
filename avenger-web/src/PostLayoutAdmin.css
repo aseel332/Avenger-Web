@@ -64,7 +64,7 @@ hr {
 .add-button{
   height: clamp(20px, 7vh, 100px);
   width: 10vw;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0);
   border: none;
   cursor: pointer;
   color: white;
@@ -262,4 +262,9 @@ hr {
 
 .type-button.active-type{
   background-color: rgba(78, 78, 78, 0.646);
+}
+
+.inactive-button{
+  background-color: rgba(108, 108, 108, 0.8);
+  cursor:auto;
 }

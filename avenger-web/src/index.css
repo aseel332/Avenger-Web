@@ -96,6 +96,7 @@ body{
   width: 100%;
   margin: 0 auto;
   min-height: 400px;
+  height: 60%;
   border-radius: 10px;
   border: 1px solid red;
   background: black;
@@ -156,3 +157,73 @@ margin-top: -2px;
   border-radius: 8px;
 
  }
+ 
+.avenger-faceshot{
+  height: clamp(50px, 5vw, 80px);
+  width: clamp(40px, 4.8vw, 70px);
+  border-radius: 50%;
+}
+
+ .modal-sub-body-assign{
+  align-self: flex-start;
+  margin-top: 15px;
+  display: flex;
+  overflow: scroll;
+  gap: 17px;
+  justify-content: flex-start;
+  width: 40vw;
+  scrollbar-width: none;
+ }
+
+.outer-container {
+  margin-top: 15px;
+  width: 100%;
+  height: 190px; /* Or 100% if parent is sized */
+  overflow: hidden; /* prevents content from overflowing parent */
+  
+}
+
+.columns-container {
+  display: flex;
+  height: 100%;
+}
+
+.column {
+  flex: 1;
+  overflow-y: auto; /* vertical scroll if too many items */
+  padding: 0.1rem;
+  scrollbar-width: none;
+ 
+}
+
+.column:last-child {
+  border-right: none;
+}
+
+.cell {
+  display: flex;
+  background: black;
+  text-align: left;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  width: 50%;
+  gap: 15px;
+}
+
+.mission-payment-input{
+  background-color: black;
+  border: none;
+  border: 1px solid whitesmoke;
+  border-radius: 5px;
+  margin-top: 4px;
+  height: 2vw;
+  font-size: 14px;
+  color: white;
+}
+
+.active-faceshot{
+  
+  border: 3px solid #A21010;
+}
