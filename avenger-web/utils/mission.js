@@ -1,4 +1,4 @@
-import { addDoc, collection, getDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 
 // missions.js
@@ -96,7 +96,7 @@ export async  function generateMissionsWithPositions(container) {
     }
   ];
 
-  console.log(missions);
+
 
 
   if (cache && now - cache.timestamp < 5 * 60 * 1000 && cache.positions.length === missions.length) {
@@ -147,4 +147,8 @@ async function getMissions(){
   }));
 }
 
+export async function deleteMission(id) {
+  await deleteDoc(doc(db, "missions", id));
+  
+}
 

@@ -2,7 +2,7 @@ export default function MissionsList(props){
 
   const { missions, missionsRefs, missionType, setShowAssignModal } = props;
 
-
+  
 
 
   return(
@@ -29,7 +29,9 @@ export default function MissionsList(props){
               </div>
             </div> 
           <button className={"assign-button " + (mission.type === "Critical"? "" : "inactive-button")} onClick={() => {
-            setShowAssignModal(missionIndex);
+            if(mission.type == "Critical"){
+              setShowAssignModal(missionIndex);
+            }
           }} >{mission.type === "Critical"? "ASSIGN" : "ASSIGNED"}</button>
           </div> 
         )}

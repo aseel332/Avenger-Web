@@ -22,7 +22,7 @@ export default function MissionsGlobe(){
   }
 
 
-  const typeList = [{name: "All", color: "white", img: null}, { name: "Critical", color: "red", img:"../src/assets/critical.png"}, {name: "In-progress", color: "yellow", img:"../src/assets/in-progress.png"}, {name: "Completed", color:"green", img:"../src/assets/green-tick.png"}, {name: "Failed", color:"white", img:"../src/assets/skull.png"}];
+  const typeList = [{name: "All", color: "white", img: null}, { name: "Critical", color: "red", img:"../src/assets/critical.png"}, { name: "Pending", color: "red", img:"../src/assets/hourglass.png"}, {name: "In-progress", color: "yellow", img:"../src/assets/in-progress.png"}, {name: "Completed", color:"green", img:"../src/assets/green-tick.png"}, {name: "Failed", color:"white", img:"../src/assets/skull.png"}];
 
   missionsRefs.current = missions.map((mission, missionIndex) => missionsRefs.current[missionIndex] ?? React.createRef());
 
@@ -44,7 +44,7 @@ export default function MissionsGlobe(){
       }
     }
     loadMissions();
-  }, [addMissionModal]);
+  }, [addMissionModal,  showAssignModal ]);
 
   function Missions(props){
     const { mission } = props;

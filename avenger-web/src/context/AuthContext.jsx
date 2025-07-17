@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [isLogedIn, setIsLogedIn] = useState(JSON.parse(localStorage.getItem("login")) || "");
 
-  console.log(currentUser);
+
   
 
   async function userSignUp(email, password){

@@ -3,6 +3,7 @@ export const avengers = [
   {name: "Captain America", img: "../src/assets/captain-america.jpg"},
   {name: "Hulk", img: "../src/assets/hulk.jpg"},
   {name: "Hawkeye", img: "../src/assets/hawkeye.webp"},
+  
 
 
 ]

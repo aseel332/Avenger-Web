@@ -12,9 +12,7 @@ function App() {
 
   const  { isLogedIn, setIsLogedIn } = useAuth();
   
-  
-  
-  console.log(isLogedIn);
+
   
   
   return (

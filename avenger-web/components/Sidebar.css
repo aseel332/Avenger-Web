@@ -1,0 +1,87 @@
+/* Sidebar base styles */
+@font-face {
+  font-family: 'American Captain';
+  src: url('/fonts/AmericanCaptain.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  opacity: 0.8;
+  overflow-y: auto;     /* allows scrolling */
+  overflow-x: hidden;     /* disables horizontal scroll */
+  scrollbar-width: none;  /* Firefox: hides scrollbar */
+  -ms-overflow-style: none; /* IE & Edge */
+  transition: width 0.5s ease;
+  z-index: 998;
+}
+
+/* Chrome, Safari and Opera */
+.sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Sidebar open state */
+.sidebar.open {
+  width: 240px;
+}
+
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Sidebar content styles */
+.sidebar-icon {
+  width: 60px;
+  height: 60px;
+  margin: 20px auto;
+  background-color: #FFF1F1;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "American Captain", sans-serif;
+  font-size: 24px;
+  color: black; 
+}
+
+
+.greeting,
+.sidebar-button {
+  color:white;
+  background-color: black;
+  font-size: 1.75vw;
+  padding: 15.5px;
+  opacity: 100;
+  text-align: center;
+  box-shadow: none;
+  border: black 2px solid;
+  font-family: "American Captain", sans-serif;
+  cursor: pointer;
+}
+
+.sidebar.open .greeting,
+.sidebar.open .sidebar-button {
+  opacity: 1;
+}
+.horizontal-line {
+  height: 2px;
+  width: 70%;
+  background-color: #ccc;
+  align-self: center;
+  align-items: center;
+  margin: 20px 0;
+}

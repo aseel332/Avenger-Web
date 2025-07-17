@@ -37,7 +37,7 @@
   cursor: pointer;
 }
 .body-card{
-  display: flex;
+  
  
 }
 
@@ -45,6 +45,7 @@
   width: 65vw;
   text-align: left;
   color: #A21010;
+  
   
 }
 
@@ -81,6 +82,7 @@ hr {
   background-image: url('./assets/globe.png') ;
   height: max(55vh, 35vw);
   width: max(75vh, 60vw);
+  
   background-repeat: no-repeat;
   background-size: 60% 100%;
   background-position: center;
