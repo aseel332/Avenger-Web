@@ -1,11 +1,11 @@
 import ReactDom from 'react-dom';
 import { useState, useEffect } from 'react';
 import { addMission, deleteMission } from '../utils/mission';
-import { avengers } from '../utils/avengers';
+
 export default function AssignModal(props){
   
-
-  const { showAssignModal, handleCloseAssignModal, missions } = props;
+ 
+  const { avengers, showAssignModal, handleCloseAssignModal, missions } = props;
   const [selectedAvengers, setSelectedAvengers] = useState([]);
   
   
@@ -22,19 +22,25 @@ export default function AssignModal(props){
     missions[showAssignModal].type = "Pending";
     missions[showAssignModal].icon = "../src/assets/hourglass.png"
     // missions[showAssignModal].color = "yellow";
+    missions[showAssignModal].outcome = Math.random() <= 0.75? "Sucessful" : "Failed";
     delete missions[showAssignModal].id;
     addMission(missions[showAssignModal]);
     handleCloseAssignModal();
-    
+    console.log(missions[showAssignModal].outcome);
   }
 
   function avengersLeft(mission){
     return mission.needed - selectedAvengers.length;
   }
+
+  
   
   function MissionPaymentCard(props){
     const {avenger} = props;
     const [payment, setPayment] = useState('');
+
+
+   
     
     return(
       <>

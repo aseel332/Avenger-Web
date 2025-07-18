@@ -1,9 +1,15 @@
-export const avengers = [
-  {name: "Iron Man", img: "../src/assets/iron-man.webp"},
-  {name: "Captain America", img: "../src/assets/captain-america.jpg"},
-  {name: "Hulk", img: "../src/assets/hulk.jpg"},
-  {name: "Hawkeye", img: "../src/assets/hawkeye.webp"},
-  
+import { collection,  getDocs } from "firebase/firestore"
+import { db } from "../firebase"
+ 
 
+export async function getUsers(){
+  const querySnapShot = await getDocs(collection(db, "users"));
+  return querySnapShot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }))
+}
 
-]
+export async function getAvengers(){
+  return await getUsers();
+}

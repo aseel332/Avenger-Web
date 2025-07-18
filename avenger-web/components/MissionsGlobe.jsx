@@ -4,8 +4,9 @@ import MissionsList from "./MissionsList.jsx";
 import AddMission from "./AddMission.jsx";
 import AssignModal from "./AssignModal.jsx";
 
-export default function MissionsGlobe(){
 
+export default function MissionsGlobe(props){
+  const { avengers } = props;
   const containerRef = useRef(null);
   const [missions, setMissions] = useState([]);
   const missionsRefs = useRef([]);
@@ -67,9 +68,9 @@ export default function MissionsGlobe(){
 
   return(
     <>
-    {addMissionModal && <AddMission handleCloseAddMission={handleCloseAddMission}/>}
+    {addMissionModal && <AddMission  handleCloseAddMission={handleCloseAddMission}/>}
     {header}
-    {(showAssignModal !== -1) && <AssignModal showAssignModal={showAssignModal} handleCloseAssignModal={handleCloseAssignModal} missions={missions} />}
+    {(showAssignModal !== -1) && <AssignModal avengers={avengers} showAssignModal={showAssignModal} handleCloseAssignModal={handleCloseAssignModal} missions={missions} />}
     
     <div className="mission-body">
       <div className="globe-container" ref={containerRef}>

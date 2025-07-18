@@ -5,10 +5,15 @@ import SalaryCard from "./SalaryCard";
 import Post from './posts';
 import Avengers from './Avengers';
 import './Sidebar.css';
+import { getAvengers } from "../utils/avengers";
+import { useEffect } from "react";
 
 export default function PostLayoutAdmin() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [selectedPage, setSelectedPage] = useState('Missions');
+  const [avengers, setAvengers] = useState([]);
+
+
 
   const header = (
     <>
@@ -33,21 +38,32 @@ export default function PostLayoutAdmin() {
     </>
   );
 
+  useEffect(() => {
+    async function loadAvengers() {
+      setAvengers(await getAvengers());
+    }
+    loadAvengers();
+    
+  }, [])
+  
+
   const currPage = () => {
     if (selectedPage === 'salary') {
-      return <SalaryCard />;
+      return <SalaryCard avengers={avengers} />;
     }
     if (selectedPage === 'dashboard') {
-      return <MissionsGlobe />;
+      return <MissionsGlobe avengers={avengers} />;
     }
     if (selectedPage === 'post') {
       return <Post />;
     }
     if (selectedPage === 'avengersdata') {
-      return <Avengers />;
+      return <Avengers avengers={avengers} />;
     }
-    return <MissionsGlobe />;
+    return <MissionsGlobe avengers={avengers} />;
   };
+
+
 
   return (
     <>

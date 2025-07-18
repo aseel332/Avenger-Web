@@ -121,16 +121,7 @@ export async  function generateMissionsWithPositions(container) {
   return missions;
 }
 
-const exampleMission = {
-  name: "Maddock",
-  color: "green",
-  type: "Completed",
-  icon: "../src/assets/green-tick.png",
-  description: "Maddock is an idotic guy, he thinks he is the shit but he aint even a fart. Just deal with it and get over with it..",
-  location: "123.123.123",
-  time: "Day",
-  needed: 3
-}
+
 
 export async function addMission(mission) {
   const missionRef = collection(db, "missions"); 

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import avengers from './avengersData';
+
 import './SalaryCard.css';
 
-export default function SalaryCard() {
+export default function SalaryCard(props) {
+  const {avengers} = props;
   const [flippedCards, setFlippedCards] = useState(new Set());
 
   const handleCardClick = (index) => {
@@ -42,7 +43,7 @@ export default function SalaryCard() {
                 <div className="card-button">
                   <div className="card-content">
                     <img
-                      src={`/images/avenger${index}.png`}
+                      src={hero.img}
                       alt={hero.name}
                       className="card-img"
                       onError={(e) => {
@@ -91,7 +92,7 @@ export default function SalaryCard() {
               <div className="card-back">
                 <div className="badge">
                   <img
-                    src={`/images/avenger${index}.png`}
+                    src={hero.img}
                     alt="Badge"
                     className="badge-img"
                   />
