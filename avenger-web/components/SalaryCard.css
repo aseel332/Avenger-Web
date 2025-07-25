@@ -2,29 +2,27 @@
 
 .salary-card-container {
   overflow-y: auto;
-  max-height: 100vh;
-  width: 70vw;
-  
+  height: 100vh;
+  width: 100%;
+  font-family: sans-serif;
   scrollbar-width: none;
+  overflow-x: hidden;
 }
 
 .card-container {
+  scrollbar-width: none;
+  padding-left: 10px;
+  padding-top: 10px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  margin-right: 20px;
-  padding: 20px;
-  max-width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(40%, 0fr));
+  gap:15px;
+  width: 65%;
   box-sizing: border-box;
   overflow-x: hidden; 
 }
 
 .card-button {
-  width: 100%;
-  max-width: 400px;
-  background-color: #000;
-  border: 0.5px solid #333;
-  border-radius: 12px;
+  width: 90%;  
   padding: 16px;
   cursor: pointer;
   text-align: left;
@@ -33,9 +31,10 @@
   will-change: transform;
   position: relative;
   overflow: hidden;  
+  
 }
 
-.card-button:hover {
+.card-front:hover {
   transform: scale(1.02); 
   box-shadow: 0 6px 16px rgba(255, 255, 255, 0.15);
   border-color: crimson;
@@ -45,12 +44,12 @@
 .card-content {
   display: flex;
   gap: 16px;
-  align-items: center;
+
 }
 
 .card-img {
-  width: 100px;
-  height: 100px;
+  width: 25%;
+  height: 7.4vw;
   border-radius: 12px;
   object-fit: cover;
 }
@@ -59,19 +58,19 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .card-name {
   margin: 0;
   color: gold;
-  font-size: 20px;
+ 
 }
 
 .balance-line {
   display: flex;
   justify-content: left;
-  font-size: 16px;
+  
   flex-wrap: wrap; /* 💡 allows wrapping inside the card */
   gap:10px;
 }
@@ -97,37 +96,42 @@
 
 .info-row {
   display: flex;
-  justify-content: space-between;
-  margin-top: 16px;
-  padding-top: 12px;
+  margin-top: 10px;
   border-top: 1px solid #333;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
 }
 
 .info-block {
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   flex: 1;
+  gap: 7px;
+  height: auto;
 }
 
 .info-title {
   color: #e53935;
   font-weight: bold;
   font-size: 14px;
-  margin-bottom: 4px;
+  text-align: center;
+  
 }
 
 .info-value {
   color: white;
   font-style: italic;
   font-size: 14px;
+  margin-bottom: 15px;
 }
 
 .card-flip {
   perspective: 1000px;
   width: 100%;
-  max-width: 400px;
-  height: 320px;
+  height: 16vw;
   position: relative;
 }
 
@@ -156,7 +160,10 @@
 
 .card-front {
   background-color: #000;
-  z-index: 2;
+  border: 0.5px solid #333;
+  border-radius: 12px;
+  width: 100%;
+  height: auto;
   transform: rotateY(0deg);
 }
 
@@ -205,6 +212,13 @@
   background-color: #b30906;
   transform: scale(1.03);
 }
+
+.flex-back{
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+}
+
 
 /* 📱 Optional: Make amount font smaller on mobile */
 @media (max-width: 400px) {

@@ -44,6 +44,7 @@ export default function Login(props){
           userSignUp(email, password);
         } else if(type == "admin"){
           adminLogin(email, password);
+          
         } else if(type == "user"){
           userLogin(email, password);
         }

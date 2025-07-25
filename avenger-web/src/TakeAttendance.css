@@ -1,0 +1,143 @@
+.attendance-card{
+  background-color:rgba(0, 0, 0, 0.639);
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 0.5px solid rgb(100, 100, 100);
+  padding: 15px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.attendance-card:hover{
+  background-color:rgba(68, 68, 68, 0.639);
+}
+
+.body-take-attendance{
+  display: flex;
+  gap: 50px;
+  width: 100vw;
+  
+}
+
+.add-attendance-container{
+  background-color: rgba(159, 8, 8, 0.795);
+  font-family: sans-serif;
+  color: white;
+  border: 1.5px solid white;
+  border-radius: 10px;
+  height: 55vh;
+  padding: 15px;
+  width: 26%;
+  justify-self: center;
+  text-align: center;
+}
+
+.add-attendance-header{
+  font-size: clamp(16px, 2vw, 30px);
+  font-family: "American";
+  letter-spacing: 1.2px;
+  word-spacing: 1.6px;
+}
+
+.add-attendance-input{
+  width: 80%;
+  background-color: transparent;
+  border: none; 
+  margin-top: 15px;
+  font-size: 14px;
+  border-bottom: 1px solid white;
+  padding: 5px;
+  padding-bottom: 8px;
+  border-radius: 5px;
+}
+
+.add-attendance-box{
+  width: 80%;
+  margin-top: 15px;
+  height: 25vh ;
+  border-radius: 5px;
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+}
+
+.add-attendance-button{
+  width: 35%;
+  margin-top: 15px;
+  height: 5vh;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid white;
+  background-color: white;
+  font-size: 20px;
+  font-weight: bold;
+  color: rgba(159, 8, 8, 0.795) ;
+}
+
+
+.attendance-body{
+  width: 63%;
+  height: auto;
+  font-family:sans-serif ;
+}
+
+.header-card{
+  display: flex;
+  height: 50%;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.attendance-name{
+  font-size: clamp(16px, 2vw, 40px);
+  width: 50%;
+  font-weight: bold;
+}
+.attendance-sub-head{
+  font-size: clamp(12px, 1.3vw, 25px);
+  width: 25%;
+  
+  
+  color: rgb(134, 134, 134);
+}
+
+.value-info{
+  color: white;
+  font-style: italic;
+  font-weight: bold;
+  margin-left: 4px;
+}
+
+.chart-body{
+  width: 63%;
+  font-family: sans-serif;
+}
+
+.week-header{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 7%;
+  font-family: sans-serif;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.week-button{
+  background-color: black;
+  color:rgba(159, 8, 8, 0.795);
+  font-weight: bold;
+  border: none;
+  height: 6vh;
+  width: 7%;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  padding: 7px;
+  border-radius: 8px;
+  border: solid 1px white;
+  cursor: pointer;
+}

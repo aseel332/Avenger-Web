@@ -5,14 +5,21 @@ import SalaryCard from "./SalaryCard";
 import Post from './posts';
 import Avengers from './Avengers';
 import './Sidebar.css';
+import '../src/index.css'
 import { getAvengers } from "../utils/avengers";
 import { useEffect } from "react";
+import TakeAttendance from "./TakeAttendance";
+import { auth } from "../firebase";
+import { getUser } from "../src/api";
 
 export default function PostLayoutAdmin() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedPage, setSelectedPage] = useState('Missions');
+  const [selectedPage, setSelectedPage] = useState(JSON.parse(localStorage.getItem("page")) || 'Missions');
   const [avengers, setAvengers] = useState([]);
+  
 
+
+  
 
 
   const header = (
@@ -41,15 +48,17 @@ export default function PostLayoutAdmin() {
   useEffect(() => {
     async function loadAvengers() {
       setAvengers(await getAvengers());
+    
     }
     loadAvengers();
     
   }, [])
   
+  
 
   const currPage = () => {
     if (selectedPage === 'salary') {
-      return <SalaryCard avengers={avengers} />;
+      return <SalaryCard  avengers={avengers} />;
     }
     if (selectedPage === 'dashboard') {
       return <MissionsGlobe avengers={avengers} />;
@@ -59,6 +68,9 @@ export default function PostLayoutAdmin() {
     }
     if (selectedPage === 'avengersdata') {
       return <Avengers avengers={avengers} />;
+    }
+    if(selectedPage=== "takeAttendance"){
+      return <TakeAttendance avengers={avengers} />
     }
     return <MissionsGlobe avengers={avengers} />;
   };

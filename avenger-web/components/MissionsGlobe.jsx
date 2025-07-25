@@ -3,6 +3,7 @@ import { generateMissionsWithPositions } from '../utils/mission.js';
 import MissionsList from "./MissionsList.jsx";
 import AddMission from "./AddMission.jsx";
 import AssignModal from "./AssignModal.jsx";
+import Updates from "./Updates.jsx";
 
 
 export default function MissionsGlobe(props){
@@ -42,9 +43,11 @@ export default function MissionsGlobe(props){
       if (containerRef.current) {
         const missionsData = await generateMissionsWithPositions(containerRef.current);
         setMissions(missionsData);
+        localStorage.setItem("missions", JSON.stringify(missionsData));
       }
     }
     loadMissions();
+    
   }, [addMissionModal,  showAssignModal ]);
 
   function Missions(props){
@@ -73,6 +76,7 @@ export default function MissionsGlobe(props){
     {(showAssignModal !== -1) && <AssignModal avengers={avengers} showAssignModal={showAssignModal} handleCloseAssignModal={handleCloseAssignModal} missions={missions} />}
     
     <div className="mission-body">
+      <div className="mission-flex">
       <div className="globe-container" ref={containerRef}>
         {missions.map((mission, missionIndex) => {
           return(
@@ -95,6 +99,8 @@ export default function MissionsGlobe(props){
             </div>
           ) 
         })}
+      </div>
+      <Updates />
       </div>
       <div className="mission-list">
         <div className="mission-button-container">

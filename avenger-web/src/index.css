@@ -13,12 +13,19 @@
 }
 
 body{
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+    url('./assets/background-img.jpg');
+  background-size: 100%;
+  background-position: center;
   display: flex;
   background-color: black;
   color: white;
   padding: 10px;
-  margin-left: 20px;
-  display: flex;
+ 
+  overflow-x: hidden;
+  
+
 }
 .container-prelayout{
   display: flex;
@@ -162,6 +169,7 @@ margin-top: -2px;
   height: clamp(50px, 4vw, 80px);
   width: clamp(40px, 3.7vw, 70px);
   border-radius: 50%;
+  cursor: pointer;
 }
 
  .modal-sub-body-assign{
@@ -228,4 +236,44 @@ margin-top: -2px;
 .active-faceshot{
   
   border: 3px solid #A21010;
+}
+
+
+.perosnal-img{
+  width: 25%;
+  justify-self: center;
+  border-radius: 5px;
+  height: 100px;
+}
+
+.box-content{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 5px;
+  text-align: center;
+  justify-content: center;
+}
+
+.sub-body-acc{
+  display: flex;
+  margin-top: 10px;
+  gap: 15px;
+  align-items: center;
+  flex: 1;
+  width: 100%;
+
+}
+
+.sub-text{
+  color: rgb(151, 151, 151);
+  width: 50%;
+  text-align: right;
+}
+
+.sub-value{
+  color:  white;
+  font-style: italic;
+  width: 50%;
+  text-align: left;
 }

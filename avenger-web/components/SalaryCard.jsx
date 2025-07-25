@@ -1,10 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import './SalaryCard.css';
+import PersonalAccount from './PersonalAccount';
+import { auth } from '../firebase';
+import { getUser } from '../src/api';
+import PaymentModal from './PaymentModal';
+
+
 
 export default function SalaryCard(props) {
   const {avengers} = props;
   const [flippedCards, setFlippedCards] = useState(new Set());
+  const [account, setAccount] = useState(null);
+  const [showPayment , setShowPayment ] = useState(false);
+  const [avengerId, setAvengerId] = useState("");
 
   const handleCardClick = (index) => {
     setFlippedCards(prev => {
@@ -25,10 +34,26 @@ export default function SalaryCard(props) {
     </header>
   );
 
+  useEffect(()=>{
+    async function loadAccount() {
+      try {
+        console.log(auth.currentUser.uid);
+        const response = await getUser(auth.currentUser.uid);
+        setAccount(response.user);
+        
+      } catch (err) {
+        console.error("Error fetching user:", err.message);
+      }
+    }
+    loadAccount();
+  }, [])
+  console.log(account);
   return (
+    <>
+    {showPayment && <PaymentModal setShowPayment={setShowPayment} account={account} avengerId={avengerId} />}
     <div className="salary-card-container">
       {header}
-
+    <div style={{display: "flex", gap: "20px", width: "100vw"}}>
       <div className="card-container">
         {avengers.map((hero, index) => (
           <div 
@@ -52,7 +77,7 @@ export default function SalaryCard(props) {
                       }}
                     />
                     <div className="card-details">
-                      <h2 className="card-name">{hero.name}</h2>
+                      <h3 className="card-name">{hero.name}</h3>
 
                       <div className="balance-line">
                         <span className="balance-label">Salary Balance:</span>
@@ -73,16 +98,16 @@ export default function SalaryCard(props) {
 
                   <div className="info-row">
                     <div className="info-block">
-                      <p className="info-title">Salary</p>
-                      <p className="info-value">{hero.salary}</p>
+                      <p className="h-class info-title">Salary</p>
+                      <p className="h-class info-value">{hero.salary}</p>
                     </div>
                     <div className="info-block">
-                      <p className="info-title">L.P.D.</p>
-                      <p className="info-value">{hero.lpd}</p>
+                      <p className="h-class info-title">L.P.D.</p>
+                      <p className="h-class info-value">{hero.lpd}</p>
                     </div>
                     <div className="info-block">
-                      <p className="info-title">N.P.D.</p>
-                      <p className="info-value">{hero.npd}</p>
+                      <p className="h-class info-title">N.P.D.</p>
+                      <p className="h-class info-value">{hero.npd}</p>
                     </div>
                   </div>
                 </div>
@@ -91,21 +116,31 @@ export default function SalaryCard(props) {
               {/* Back Side */}
               <div className="card-back">
                 <div className="badge">
+                  <div className='flex-back'>
                   <img
                     src={hero.img}
                     alt="Badge"
                     className="badge-img"
                   />
-                  <p className="badge-name">{hero.name}</p>
-                  <p className="badge-role">Avenger ID: {index + 1001}</p>
+                  <div className='info-flex'>
+                  <span className="badge-name">{hero.name}</span>
+                  <p className="badge-role">Avenger ID: 1000</p>
                   <p className="badge-date">Joined: {hero.joined}</p>
-                  <button className='back-pay'>Pay Salary</button>
+                  </div>
+                  </div>
+                  <button className='back-pay' onClick={()=>{
+                    setShowPayment(true);
+                    setAvengerId(hero.id);
+                  }}>Send Money</button>
                 </div>
               </div>
             </div>
           </div>
         ))}
       </div>
+        {account && <PersonalAccount account={account} />}
+      </div>
     </div>
+    </>
   );
 }

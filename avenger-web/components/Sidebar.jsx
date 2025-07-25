@@ -4,6 +4,12 @@ import './Sidebar.css';
 export default function Sidebar(props) {
   const { isOpen, onClose, onSelectPage } = props;
 
+  function setPage(page){
+    onSelectPage(page);
+    localStorage.setItem("page", JSON.stringify(page));
+    onClose();
+  }
+
   return (
     <div className={`sidebar ${isOpen ? 'open' : ''}`}>
       <button className="close-button" onClick={onClose}>✕</button>
@@ -11,15 +17,14 @@ export default function Sidebar(props) {
       <div className="horizontal-line"></div>
 
       <button onClick={()=>{
-        onSelectPage('dashboard');
-        onClose();
+        setPage("dashboard");
+        
       }} className='sidebar-button'>Dashboard</button><br />
       <div className="horizontal-line"></div>
 
       <button
         onClick={() => {
-          onSelectPage('salary');
-          onClose();
+          setPage("salary");
         }}
         className="sidebar-button"
       >
@@ -28,18 +33,18 @@ export default function Sidebar(props) {
       <div className="horizontal-line"></div>
 
       <button onClick={()=>{
-        onSelectPage('post');
-        onClose();
+        setPage("post");
       }}className="sidebar-button">Posts</button><br />
       <div className="horizontal-line"></div>
 
       <button onClick={()=>{
-        onSelectPage('avengersdata');
-        onClose();
+        setPage("avengersdata");
       }} className="sidebar-button">Avengers Database</button><br />
       <div className="horizontal-line"></div>
 
-      <button className="sidebar-button">Take Attendance</button><br />
+      <button onClick={()=>{
+        setPage("takeAttendance");
+      }} className="sidebar-button">Take Attendance</button><br />
       <div className="horizontal-line"></div>
 
       <button className="sidebar-button">Logout</button><br />
