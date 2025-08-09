@@ -33,6 +33,7 @@ export function AuthProvider({ children }) {
       })
       console.log("Successfully registered user:", auth.currentUser.uid);
       setIsLogedIn("user");
+      localStorage.setItem("login", JSON.stringify("user"));
     } catch(err){
       console.log(err.message);
     } finally{
@@ -44,6 +45,10 @@ export function AuthProvider({ children }) {
     setCurrentUser(null);
     setUserData(null);
     localStorage.removeItem("login");
+    localStorage.removeItem("page");
+    localStorage.removeItem("avengers");
+    localStorage.clear();
+    setIsLogedIn("");
     return signOut(auth);
   }
 

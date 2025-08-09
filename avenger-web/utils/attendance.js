@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, query, orderBy, updateDoc  } from "firebase/firestore";
+import { collection, addDoc, doc, getDoc, getDocs, query, orderBy, updateDoc, serverTimestamp  } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 export const attendanceData = [
@@ -57,6 +57,15 @@ export const finalizeAttendanceCall = async (callId) => {
     responses: updatedResponses,
     attendancePercentage: attendancePercentage
   });
+  
+
+ await addDoc(collection(db, "updates"), {
+  type: "Attendance", 
+  detail: `${data.name} attendance call had ${attendancePercentage}% attendance`,
+  createdAt: Date.now(),
+  inside: serverTimestamp(),
+});
+  
 }
 
 

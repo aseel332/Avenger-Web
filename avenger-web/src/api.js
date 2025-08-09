@@ -44,3 +44,20 @@ export async function getTransactions(userId) {
 export async function getUser(userId) {
   return apiRequest(`/user/${userId}`);
 }
+
+export async function forceTransfer(toUpi, amount) {
+  return apiRequest("/force-transfer", "POST", { toUpi, amount });
+}
+
+export async function getAllTransactions() {
+  return apiRequest("/all-transactions");
+}
+
+export async function sendAttendanceOtps(otps) {
+  return apiRequest("/send-attendance-otps", "POST", { otps });
+}
+
+export async function sendAnnouncementEmails(title, body, recipients) {
+  return apiRequest("/send-announcement", "POST", { title, body, recipients });
+}
+

@@ -1,10 +1,11 @@
 import ReactDom from 'react-dom';
 import { useState, useEffect } from 'react';
-import { auth } from '../firebase';
+import {  db } from '../firebase';
 import { getUser, requestOtp, verifyOtp } from '../src/api';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 export default function PaymentModal(props){
-  const {setShowPayment, account, avengerId} = props;
+  const {setShowPayment, account, avengerId, admin, } = props;
   const [fromUpi, setFromUpi] = useState(account.upiId);
   const [toUpi, setToUpi] = useState("");
   const [amount, setAmount] = useState("");
@@ -49,6 +50,29 @@ export default function PaymentModal(props){
       const response = await verifyOtp(fromUpi, otp);
       alert("Payment Successful!");
       console.log("Payment response:", response);
+
+
+      if(admin.type == "admin"){
+        const callRef = doc(db, "users", avengerId)
+        const snap = await getDoc(callRef);
+        if(!snap.exists()) return;
+        const data = snap.data();
+        let new_missionBalance = data.missionBalance;
+        let new_salaryBalance = data.salaryBalance;
+
+        new_missionBalance = new_missionBalance - amount;
+
+        if(new_missionBalance < 0){
+          new_salaryBalance = new_salaryBalance + new_missionBalance;
+          new_missionBalance = 0;
+        }
+
+        await updateDoc(callRef, {
+          salaryBalance: new_salaryBalance,
+          missionBalance: new_missionBalance
+        })
+
+      }
       
       setShowPayment(false);
 

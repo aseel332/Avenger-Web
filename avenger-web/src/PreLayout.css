@@ -74,7 +74,7 @@ header{
 .email-input{
   width: 30vw;
   height: 6vh;
-  background-color: black;
+  background-color: transparent;
   
   color: white;
   border: none;

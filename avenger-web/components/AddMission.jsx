@@ -1,6 +1,8 @@
 import ReactDom from 'react-dom';
 import { useState } from 'react';
 import { addMission } from '../utils/mission';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase';
 export default function AddMission(props){
   const { handleCloseAddMission } = props
   const [name, setName] = useState("");
@@ -21,6 +23,13 @@ export default function AddMission(props){
       location: location,
     }
     await addMission(newMisson);
+
+     await addDoc(collection(db, "updates"), {
+      type: "Mission Created", 
+      detail: `${name} mission has been created`,
+      createdAt: Date.now(),
+      inside: serverTimestamp(),
+    });
   }
 
   return ReactDom.createPortal(

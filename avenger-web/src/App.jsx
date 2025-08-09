@@ -18,7 +18,7 @@ function App() {
   return (
    <>
 
-    { isLogedIn == "admin"? <PostLayoutAdmin /> : isLogedIn == "user" ? <PostLayoutUser /> : <PreLayout isLogedIn={isLogedIn} setIsLogedIn={setIsLogedIn} />}
+    { isLogedIn? <PostLayoutAdmin type = {isLogedIn}/> : <PreLayout isLogedIn={isLogedIn} setIsLogedIn={setIsLogedIn} />}
   
    </>
   )

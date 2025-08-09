@@ -1,20 +1,18 @@
 [
   {
-    "userId": "vuJTV6MhwtORjkXCS5JrLbBZebz2",
-    "name": "Sam Wilson",
-    "email": "lakadia.aseel786@gmail.com",
-    "upiId": "samwilson@dummyupi",
-    "accountNumber": 1474268560,
-    "balance": 997800,
-    "apiKey": "5612682d-4b19-4252-b6aa-41243fc4d9fe"
+    "userId": "CREmNjPlxuURDxqwaFN5Mdi1PgL2",
+    "name": "Thor Odinson",
+    "email": "aryan.t3@ahduni.edu.in",
+    "upiId": "thorodinson@dummyupi",
+    "accountNumber": 1393584596,
+    "balance": 99878800
   },
   {
-    "userId": "PB9WGGKCg8SQGMNjcBNRTH3Upfa2",
-    "name": "Tony Stark",
-    "email": "lakadia.aseel12@gmail.com",
-    "upiId": "tonystark@dummyupi",
-    "accountNumber": 7827985570,
-    "balance": 2200,
-    "apiKey": "26a794e6-02a6-428a-9513-155a0b5a2c11"
+    "userId": "5kM4ka0aoPcjcbOUAZPr5D6eejJ3",
+    "name": "Peter Parker",
+    "email": "lakadia.aseel786@gmail.com",
+    "upiId": "peterparker@dummyupi",
+    "accountNumber": 8331485989,
+    "balance": 1000
   }
 ]

@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.14.3",
+    "@cloudinary/url-gen": "^1.21.0",
+    "axios": "^1.11.0",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "firebase": "^11.10.0",

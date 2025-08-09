@@ -1,8 +1,10 @@
 import React from 'react';
 import './Sidebar.css';
+import { useAuth } from '../src/context/AuthContext';
 
 export default function Sidebar(props) {
-  const { isOpen, onClose, onSelectPage } = props;
+  const { isOpen, onClose, onSelectPage, type } = props;
+  const { userLogout } = useAuth();
 
   function setPage(page){
     onSelectPage(page);
@@ -13,7 +15,7 @@ export default function Sidebar(props) {
   return (
     <div className={`sidebar ${isOpen ? 'open' : ''}`}>
       <button className="close-button" onClick={onClose}>✕</button>
-      <button className="greeting">Hello Admin!!</button><br />
+      <button className="greeting">{type === "admin" ? "Hello Admin" : "Hello User"}</button><br />
       <div className="horizontal-line"></div>
 
       <button onClick={()=>{
@@ -22,32 +24,56 @@ export default function Sidebar(props) {
       }} className='sidebar-button'>Dashboard</button><br />
       <div className="horizontal-line"></div>
 
+      { type === "admin" && (<>
       <button
         onClick={() => {
-          setPage("salary");
+          if(type === "admin"){
+            setPage("salary");
+          }else{
+            setPage("money");
+          }
         }}
         className="sidebar-button"
       >
         Salary
       </button><br />
       <div className="horizontal-line"></div>
+      </>)}
+
 
       <button onClick={()=>{
         setPage("post");
       }}className="sidebar-button">Posts</button><br />
       <div className="horizontal-line"></div>
 
-      <button onClick={()=>{
+      { type === "admin" &&
+      (<><button onClick={()=>{
         setPage("avengersdata");
       }} className="sidebar-button">Avengers Database</button><br />
       <div className="horizontal-line"></div>
+      </>)}
 
+      { type === "admin" && (<>
       <button onClick={()=>{
         setPage("takeAttendance");
       }} className="sidebar-button">Take Attendance</button><br />
       <div className="horizontal-line"></div>
+      </>)}
 
-      <button className="sidebar-button">Logout</button><br />
+      <button onClick={()=>{
+         if(type === "admin"){
+            setPage("transactions");
+          }else{
+            setPage("money");
+          }
+        
+      }} className="sidebar-button">{type === "admin"? "Transactions" : "Money"}</button><br />
+      <div className="horizontal-line"></div>
+
+      <button onClick={() => {
+        userLogout();
+       
+      }} className="sidebar-button">Logout</button><br />
     </div>
   );
 }

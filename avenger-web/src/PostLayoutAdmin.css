@@ -14,6 +14,7 @@
   font-size: 4vw;
   margin-left: 35vw;
   margin-right: 32vw;
+  cursor: pointer;
 }
 
 .profile-div{
@@ -61,7 +62,7 @@ hr {
 
 .add-button{
   height: clamp(20px, 7vh, 100px);
-  width: 10vw;
+  width: fit-content;
   background-color: rgba(0, 0, 0, 0);
   border: none;
   cursor: pointer;
@@ -157,6 +158,7 @@ hr {
   border-radius: 10px;
   overflow: hidden;
   padding: 5px;
+  width: 100%;
 }
 
 .mission-card.highlight {
@@ -167,7 +169,7 @@ hr {
   display: flex;
   align-items:flex-start ;
   gap: 20px;
-  width: 85vw;
+  width: 75%;
 
   
 }
@@ -228,7 +230,7 @@ hr {
  .assign-button{
   font-size: clamp(18px, 1.7vw, 26px);
   font-weight: bold;
-  width: clamp(100px ,9.5vw, 300px);
+  width: 10%;
   margin-right: 20px;
   height: 50px;
   align-self: center;
@@ -286,10 +288,12 @@ hr {
 .black-box{
   width: 26.5%;
   justify-self: center;
+  height: fit-content;
   background-color: rgba(0, 0, 0, 0.539);
   padding: 15px;
   border: 1px solid white;
   border-radius: 8px;
+  font-family: sans-serif;
 }
 
 .box-title{
@@ -322,3 +326,38 @@ hr {
   width: 60%;
 }
 
+.list-body{
+  width: 63%;
+  height: fit-content;
+  max-height: 60vh;
+  overflow: auto;
+  scrollbar-width: none;
+  font-family:sans-serif ;
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 15px;
+}
+
+.avenger-card{
+  width: 31%;
+  height: fit-content;
+  padding: 7px;
+  padding-right: 0px;
+  background-color: rgba(0, 0, 0, 0.468);
+  border-radius: 10px;
+  border: 0.5px solid #6a6a6a;
+  margin-bottom: 2px;
+  cursor: pointer;
+  display: flex;
+}
+
+.avenger-card:hover{
+  background-color: #3a3a3a;
+}
+
+.avenger-img{
+  width: 90%;
+  height: 7.4vw;
+  border-radius: 10px;
+  object-fit: cover;
+}

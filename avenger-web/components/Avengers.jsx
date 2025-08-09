@@ -1,6 +1,8 @@
 import Sidebar from './Sidebar';
 import "../src/Avengers.css"
 import { useState } from 'react';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 export default function Avengers(props)
 {
@@ -10,7 +12,7 @@ export default function Avengers(props)
     const topRowItems = avengers.slice(0, mid);
     const bottomRowItems = avengers.slice(mid);
     const missions = JSON.parse(localStorage.getItem("missions"));
-    console.log(missions);
+
     const header=(
         <header className="title-container">
         <p className="red-title">Avengers Database</p>
@@ -19,19 +21,30 @@ export default function Avengers(props)
         </header>
     );
 
+    async function handleMakeAdmin(avenger){
+        const callRef = doc(db, "users", avenger.id);
+        await deleteDoc(callRef);
+        avenger.type = "admin";
+        avenger.salarry = 10000000;
+        await setDoc(doc(db, "admins", avenger.id), avenger);
+    }
+
     function AvengersDetail(){
         const avenger = avengers.find(val => val.id === selectedAvenger) || {};
         const filteredMissions = missions.filter(mission =>
-    Array.isArray(mission.selectedAvengers) &&
-    mission.selectedAvengers.some(avengerObj => avengerObj.name === avenger.name)
-);
+            Array.isArray(mission.selectedAvengers) &&
+            mission.selectedAvengers.some(avengerObj => avengerObj.name === avenger.name)
+        );
 
 
 
 
         return(
         <>
-       <h1 style={{ textAlign: "center", padding: "0", margin:"0"}}>{avenger.name} - {avenger.real}</h1>
+
+       <h1 style={{ display: "flex", gap: "10px", justifyContent: "center", textAlign: "center", padding: "0", margin:"0"}}>{avenger.name} - {avenger.real} - <button className='assign-button' style={{width: "fit-content", height: "fit-content", padding: "5px"}} onClick={() => {
+        handleMakeAdmin(avenger);
+       }}>Make Admin</button></h1> 
        <div className='detail-flex-body'>
         <div className='body-divs'>
             <div className='details-card'>
@@ -50,18 +63,24 @@ export default function Avengers(props)
             </div>
         </div>
         <div className='body-divs'>
-            <h3 style={{padding: "0", margin: "0"}}>Image Dalo</h3>
+            <img className='full-image' src={avenger.body} />
         </div>
         <div className='body-divs'>
             <div className='details-card'>
                 <h3 className='h3-titles'>Assigned Missions</h3>
                 <hr className='full-red-line' />
-                {filteredMissions.map((item, index) => {
+                {filteredMissions.length !== 0 ?  filteredMissions.map((item, index) => {
                     return(
-                        <h5 key={index} style={{padding: "0", margin: "0", marginTop: "5px"}}>{item.name}</h5>
+                        <h5 key={index} style={{padding: "0", margin: "0", marginTop: "7px"}}>{item.name}</h5>
                     )
-                }) }
+                }) : "No Missions Assigned Yet" }
                 
+            </div>
+            <div className='details-card'>
+                <h3 className='h3-titles'>Contact</h3>
+                <hr className='full-red-line' />
+                 <h5 style={{padding: "0", margin: "0", marginTop: "7px"}}>UPI: {avenger.name}</h5>
+                  <h5 style={{padding: "0", margin: "0", marginTop: "7px"}}>Email: {avenger.email}</h5>
             </div>
         </div>
        </div>
@@ -80,7 +99,7 @@ export default function Avengers(props)
                                 <div key={idx} >
                                 <img onClick={() => {
                                     setSelectedAvenger(item.id);
-                                    console.log(selectedAvenger);
+                          
                                 }} src={item.img} className={'avg-cell ' + (selectedAvenger === item.id? "active-img " : "")}/>
                                 </div>
                             ))}
@@ -90,7 +109,7 @@ export default function Avengers(props)
                                 <div key={idx} >
                                 <img onClick={() => {
                                     setSelectedAvenger(item.id);
-                                    console.log(selectedAvenger);
+                     
                                 }} src={item.img} className={'avg-cell ' + (selectedAvenger === item.id? "active-img " : "")} />
                                 </div>
                             ))}

@@ -1,0 +1,151 @@
+.post-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  height: 100%;
+  width: 100%;
+}
+
+
+.post-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x:hidden;
+  padding-right: 10px;
+  align-content: flex-start;
+  max-width: calc(100% - 340px); 
+}
+
+
+.post-card {
+  background-color: #1b1b1b;
+  color: #f0f0f0;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  font-family: 'Segoe UI', sans-serif;
+  transition: transform 0.3s ease;
+  margin: 20px 0;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+}
+
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #cfcfcf;
+  margin-bottom: 10px;
+}
+
+.post-author {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.author-icon {
+  font-size: 16px;
+}
+
+.post-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 10px 0;
+  color: white;
+}
+
+.post-body {
+  font-size: 15px;
+  color: #bfbfbf;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+.review-button {
+  padding: 8px 16px;
+  background-color: transparent;
+  color: crimson;
+  border: 1px solid crimson;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  
+}
+
+.review-button:hover {
+  background-color: crimson;
+  color: white;
+  transform: scale(1.03);
+}
+
+.posting-buttons {
+  position: fixed;
+  top: 200px;
+  right: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  z-index: 10;
+}
+
+.post-button {
+  width: clamp(180px, 20vw, 280px);
+  height: clamp(50px, 8vh, 70px);
+  background-color: #000;
+  color: white;
+  border: 1.5px solid white;
+  border-radius: 8px;
+  font-size: clamp(16px, 2vw, 24px);
+  font-family: "American Captain", sans-serif;
+  letter-spacing: 1.7px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top:40px;
+}
+
+.post-button:hover {
+  background-color: #333;
+  transform: scale(1.05);
+  color: crimson;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .posts-container {
+    flex-direction: column;
+  }
+
+.post-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-height: calc(100vh - 150px); 
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+  .posting-buttons {
+    position: static;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .post-button {
+    margin-right: 0;
+    margin-bottom: 30px;
+  }
+}

@@ -78,7 +78,7 @@ app.post("/create-account", (req, res) => {
     return res.status(400).json({ message: "Account already exists for this userId", user: existingUser });
   }
 
-  const upiId = `${name.toLowerCase()}@dummyupi`;
+  const upiId = `${(name.replace(/\s+/g, '')).toLowerCase()}@dummyupi`;
   const accountNumber = Math.floor(1000000000 + Math.random() * 9000000000);
   const user = { userId, name, email, upiId, accountNumber, balance: initialBalance || 0 };
   users.push(user);
@@ -143,7 +143,7 @@ app.post("/verify-otp", (req, res) => {
   sender.balance -= pending.amount;
   receiver.balance += pending.amount;
 
-  transactions.push({ from: sender.userId, to: receiver.userId, amount: pending.amount, date: new Date() });
+  transactions.push({ fromName: sender.name, toName: receiver.name,from: sender.userId, to: receiver.userId, amount: pending.amount, date: new Date() });
 
   delete pendingOtps[fromUpi];
   fs.writeFileSync(otpFile, JSON.stringify(pendingOtps, null, 2));
@@ -170,6 +170,133 @@ app.get("/user/:userId", (req, res) => {
   if (!user) return res.status(404).json({ message: "User not found" });
   res.json({ user });
 });
+
+// ------------------ UNSAFE DIRECT TRANSFER -------------------
+app.post("/force-transfer", (req, res) => {
+  const { toUpi, amount } = req.body;
+
+  if (!toUpi || typeof amount !== "number" || amount <= 0) {
+    return res.status(400).json({ message: "toUpi and valid amount are required" });
+  }
+
+  const receiver = users.find(u => u.upiId === toUpi);
+  if (!receiver) {
+    return res.status(404).json({ message: "Receiver not found" });
+  }
+
+  receiver.balance += amount;
+
+  transactions.push({
+    from: "SYSTEM",
+    fromName: "SYSTEM",
+    toName: receiver.name,
+    to: receiver.userId,
+    amount,
+    date: new Date()
+  });
+
+  saveData(usersFile, users);
+  saveData(transactionsFile, transactions);
+
+  res.json({
+    message: `Force transfer of ₹${amount} to ${receiver.name} successful.`,
+    receiver
+  });
+});
+
+app.post("/update-balance", (req, res) => {
+  const { userId, upiId, amount } = req.body;
+
+  if (!userId && !upiId) {
+    return res.status(400).json({ message: "Provide either userId or upiId" });
+  }
+
+  if (typeof amount !== "number") {
+    return res.status(400).json({ message: "Amount must be a number" });
+  }
+
+  const user = users.find(
+    u => (userId && u.userId === userId) || (upiId && u.upiId === upiId)
+  );
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  // Update balance
+  user.balance += amount;
+
+  // Save updated data
+  saveData(usersFile, users);
+
+  // Record as system transaction (optional)
+  transactions.push({
+    from: amount < 0 ? user.userId : "SYSTEM",
+    to: amount > 0 ? user.userId : "SYSTEM",
+    amount: Math.abs(amount),
+    date: new Date()
+  });
+
+  saveData(transactionsFile, transactions);
+
+  res.json({
+    message: `Balance updated for ${user.name}`,
+    newBalance: user.balance
+  });
+});
+
+app.get("/all-transactions", (req, res) => {
+  res.json({ transactions });
+});
+
+app.post("/send-attendance-otps", async (req, res) => {
+  const { otps } = req.body; // { avengerId: { email, otp }, ... }
+
+  const sendEmailPromises = Object.values(otps).map(({ email, otp }) => {
+    const mailOptions = {
+      from: "avengerproject658@gmail.com",
+      to: email,
+      subject: "Your Attendance OTP",
+      text: `Your OTP for attendance is: ${otp}. It expires in 1 minute.`,
+    };
+    return transporter.sendMail(mailOptions);
+  });
+
+  try {
+    await Promise.all(sendEmailPromises);
+    res.json({ message: "Attendance OTPs sent" });
+  } catch (error) {
+    console.error("Failed to send OTPs:", error);
+    res.status(500).json({ message: "Error sending OTPs" });
+  }
+});
+
+app.post("/send-announcement", async (req, res) => {
+  const { title, body, recipients } = req.body;
+
+  if (!title || !body || !recipients || !Array.isArray(recipients)) {
+    return res.status(400).json({ message: "title, body and recipients array are required" });
+  }
+
+  const sendEmailPromises = recipients.map((email) => {
+    const mailOptions = {
+      from: "avengerproject658@gmail.com",
+      to: email,
+      subject: `📢 New Announcement: ${title}`,
+      text: `${body}\n\n- Avengers Team`
+    };
+    return transporter.sendMail(mailOptions);
+  });
+
+  try {
+    await Promise.all(sendEmailPromises);
+    res.json({ message: "Announcement emails sent successfully" });
+  } catch (error) {
+    console.error("Failed to send announcement emails:", error);
+    res.status(500).json({ message: "Error sending announcement emails" });
+  }
+});
+
 
 // ------------------ START SERVER -------------------
 app.listen(3000, () => console.log("Backend running on http://localhost:3000"));

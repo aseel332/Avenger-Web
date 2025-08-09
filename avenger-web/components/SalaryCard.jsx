@@ -9,7 +9,7 @@ import PaymentModal from './PaymentModal';
 
 
 export default function SalaryCard(props) {
-  const {avengers} = props;
+  const {avengers, admin} = props;
   const [flippedCards, setFlippedCards] = useState(new Set());
   const [account, setAccount] = useState(null);
   const [showPayment , setShowPayment ] = useState(false);
@@ -37,7 +37,7 @@ export default function SalaryCard(props) {
   useEffect(()=>{
     async function loadAccount() {
       try {
-        console.log(auth.currentUser.uid);
+      
         const response = await getUser(auth.currentUser.uid);
         setAccount(response.user);
         
@@ -47,10 +47,10 @@ export default function SalaryCard(props) {
     }
     loadAccount();
   }, [])
-  console.log(account);
+
   return (
     <>
-    {showPayment && <PaymentModal setShowPayment={setShowPayment} account={account} avengerId={avengerId} />}
+    {showPayment && <PaymentModal admin={admin} setShowPayment={setShowPayment} account={account} avengerId={avengerId} />}
     <div className="salary-card-container">
       {header}
     <div style={{display: "flex", gap: "20px", width: "100vw"}}>
@@ -81,17 +81,17 @@ export default function SalaryCard(props) {
 
                       <div className="balance-line">
                         <span className="balance-label">Salary Balance:</span>
-                        <span className="balance-amount">{hero.salaryBalance}</span>
+                        <span className="balance-amount">$ {hero.salaryBalance}</span>
                       </div>
 
                       <div className="balance-line">
                         <span className="balance-label">Mission Balance:</span>
-                        <span className="balance-amount">{hero.missionBalance}</span>
+                        <span className="balance-amount">$ {hero.missionBalance}</span>
                       </div>
 
                       <div className="balance-line total">
                         <span className="total-label">Total:</span>
-                        <span className="balance-amount">{hero.total}</span>
+                        <span className="balance-amount">$ {Number(hero.salaryBalance) + Number(hero.missionBalance)}</span>
                       </div>
                     </div>
                   </div>
@@ -138,7 +138,7 @@ export default function SalaryCard(props) {
           </div>
         ))}
       </div>
-        {account && <PersonalAccount account={account} />}
+        {account && <PersonalAccount admin={admin} account={account} />}
       </div>
     </div>
     </>

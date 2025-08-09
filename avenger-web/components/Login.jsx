@@ -5,7 +5,7 @@ export default function Login(props){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { type, setType } = props;
+  const { type, setType, setClick } = props;
   const { userSignUp, userLogout, adminLogin, userLogin } = useAuth();
   return(
     <>
@@ -39,7 +39,8 @@ export default function Login(props){
         }} className="link-button">{type=="signup"? "SignIn?" : "Forgot Password?"}</button> 
       
       </div>
-      <button onClick={()=>{
+      <div style={{ display: "flex",  gap: "20px"}}>
+      <button onClick={async ()=>{
         if(type == "signup"){
           userSignUp(email, password);
         } else if(type == "admin"){
@@ -49,6 +50,10 @@ export default function Login(props){
           userLogin(email, password);
         }
       }} className="admin-user-button">{type == "signup"? "SIGNUP" : "LOGIN" }</button>
+      <button className="admin-user-button" onClick={()=> {
+        setClick(false);
+      }}>Back</button>
+      </div>
     </div>
     </>
   )

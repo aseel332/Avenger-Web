@@ -7,6 +7,7 @@ import { formatDate, formatTime, isExpired } from "../utils/dateUtils";
 import LiveTimer from "./LiveTimer";
 import AttendanceChart from "./AttendanceChart";
 import dayjs from "dayjs";
+import { sendAttendanceOtps } from "../src/api.js";
 
 
 export default function TakeAttendance(props){
@@ -40,8 +41,13 @@ export default function TakeAttendance(props){
 
     avengers.forEach(avenger => {
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      otps[avenger.id] = otp;
+      otps[avenger.id] = {
+      email: avenger.email,
+      otp: otp
+    };
     });
+
+    await sendAttendanceOtps(otps);
 
     const callRef = doc(db, "attendanceCalls", callId);
     const expiresAt = Date.now() + 60_000;

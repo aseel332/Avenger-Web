@@ -1,8 +1,8 @@
 
 
 .salary-card-container {
-  overflow-y: auto;
-  height: 100vh;
+  overflow: hidden;
+  height: fit-content;
   width: 100%;
   font-family: sans-serif;
   scrollbar-width: none;
@@ -19,6 +19,11 @@
   width: 65%;
   box-sizing: border-box;
   overflow-x: hidden; 
+  height: fit-content;
+
+  overflow: auto;
+  scrollbar-width: none;
+  overflow-x: hidden;
 }
 
 .card-button {

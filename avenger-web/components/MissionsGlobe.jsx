@@ -8,12 +8,16 @@ import Updates from "./Updates.jsx";
 
 export default function MissionsGlobe(props){
   const { avengers } = props;
+  const type = JSON.parse(localStorage.getItem("login"));
+  const admin = JSON.parse(localStorage.getItem("admin"));
   const containerRef = useRef(null);
   const [missions, setMissions] = useState([]);
   const missionsRefs = useRef([]);
   const [missionType, setMissionType] = useState("All");
   const [addMissionModal, setAddMissionModal] = useState(false);
   const [showAssignModal, setShowAssignModal] = useState(-1);
+  const [detailModal, setDetailModal] = useState(-1);
+  const [refresh, setRefresh] = useState(false);
 
   function handleCloseAddMission(){
     setAddMissionModal(false);
@@ -21,6 +25,7 @@ export default function MissionsGlobe(props){
 
   function handleCloseAssignModal(){
     setShowAssignModal(-1);
+    setDetailModal(-1);
   }
 
 
@@ -44,11 +49,13 @@ export default function MissionsGlobe(props){
         const missionsData = await generateMissionsWithPositions(containerRef.current);
         setMissions(missionsData);
         localStorage.setItem("missions", JSON.stringify(missionsData));
+        
       }
     }
     loadMissions();
     
-  }, [addMissionModal,  showAssignModal ]);
+    
+  }, [addMissionModal,  showAssignModal, refresh ]);
 
   function Missions(props){
     const { mission } = props;
@@ -63,9 +70,9 @@ export default function MissionsGlobe(props){
   }
 
   const header = (<header className="title-container">
-    <p className="red-title">Missions <button onClick={() => {
+    <p className="red-title">Missions {type === "admin" && <button onClick={() => {
       setAddMissionModal(true);
-    }} className="add-button">Add Mission</button></p> 
+    }} className="add-button">Add Mission</button>}</p> 
     <hr className="red-line" />
   </header>);
 
@@ -73,12 +80,22 @@ export default function MissionsGlobe(props){
     <>
     {addMissionModal && <AddMission  handleCloseAddMission={handleCloseAddMission}/>}
     {header}
-    {(showAssignModal !== -1) && <AssignModal avengers={avengers} showAssignModal={showAssignModal} handleCloseAssignModal={handleCloseAssignModal} missions={missions} />}
+    {((showAssignModal !== -1) || (detailModal !== -1)) && <AssignModal avengers={avengers} showAssignModal={showAssignModal} handleCloseAssignModal={handleCloseAssignModal} missions={missions} detailModal={detailModal} setDetailModal={setDetailModal} />}
     
     <div className="mission-body">
       <div className="mission-flex">
       <div className="globe-container" ref={containerRef}>
         {missions.map((mission, missionIndex) => {
+         
+          if(type === "user"){
+           if(mission.type === "Critical"){
+              return("");
+           }
+           if(Array.isArray(mission.selectedAvengers) &&
+             !mission.selectedAvengers.some(avengerObj => avengerObj.name === admin.name)){
+            return("")
+           }
+          }
           return(
             <div onClick={() => scrollToSection(missionIndex)} className="mission-popup" key={missionIndex} style={{
               left: `${mission.position.x}px`,
@@ -104,15 +121,20 @@ export default function MissionsGlobe(props){
       </div>
       <div className="mission-list">
         <div className="mission-button-container">
-      {typeList.map((type, typeIndex)=>{
+      {typeList.map((inType, typeIndex)=>{
+        if(type === "user"){
+          if(inType.name === "Critical"){
+            return("");
+          }
+        }
         return(
           <button onClick={() => {
-            setMissionType(type.name);
-          }} style={{color: `${type.color}`}} className={"type-button " + (missionType === type.name? "active-type" : "")} key={typeIndex}>{type.img? <img className="type-image" src={type.img} /> : ""}{type.name}</button>
+            setMissionType(inType.name);
+          }} style={{color: `${inType.color}`}} className={"type-button " + (missionType === inType.name? "active-type" : "")} key={typeIndex}>{inType.img? <img className="type-image" src={inType.img} /> : ""}{inType.name}</button>
         )
       })}
     </div>
-        <MissionsList setShowAssignModal={setShowAssignModal} showAssignModal={showAssignModal} missions={missions} missionsRefs={missionsRefs} missionType={missionType}/>
+        <MissionsList refresh={refresh} setRefresh={setRefresh} detailModal={detailModal} setDetailModal={setDetailModal} setShowAssignModal={setShowAssignModal} showAssignModal={showAssignModal} missions={missions} missionsRefs={missionsRefs} missionType={missionType}/>
       </div>
     </div>
     </>

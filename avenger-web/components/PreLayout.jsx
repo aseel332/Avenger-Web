@@ -28,7 +28,7 @@ export default function PreLayout(){
       </div>
     </div>
     <div className="right-main">
-      {click? <Login type={type} setType={setType}  /> : <JarvisCard setClick={setClick} setType={setType}/>}
+      {click? <Login type={type} setType={setType} setClick={setClick} /> : <JarvisCard setClick={setClick} setType={setType}/>}
     </div>
     </div>
     
