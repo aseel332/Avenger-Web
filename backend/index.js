@@ -8,7 +8,7 @@ const { v4: uuidv4 } = require("uuid");
 const app = express();
 app.use(bodyParser.json());
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://avenger-web.netlify.app",
   methods: "GET,POST,PUT,DELETE,OPTIONS",
   allowedHeaders: "Content-Type, Authorization"
 }));
