@@ -22,8 +22,8 @@ const otpFile = `${dataDir}/pendingOtps.json`;
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: 'avengerproject658@gmail.com',
-        pass: 'qwje kvdx cerk wbpt'
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 });
 
