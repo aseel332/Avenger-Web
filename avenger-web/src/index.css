@@ -15,7 +15,7 @@
 body{
   background-image: 
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-    url('./assets/background-img.jpg');
+    url('/background-img.jpg');
   background-size: 100%;
   background-position: center;
   display: flex;
