@@ -13,7 +13,7 @@ import { auth, db } from "../firebase";
 import { forceTransfer, getUser } from "../src/api";
 import { runIfPastOrToday } from "../utils/dateUtils";
 import { doc, getDoc, updateDoc, onSnapshot, collection, getDocs  } from "firebase/firestore";
-import Transactions from "./transactions";
+import Transactions from "./Transactions";
 import Money from "./Money";
 import AddAvengerModal from "./AddAvengerModal";
 import AttendanceOtpModal from "./AttendanceOtpModal";
