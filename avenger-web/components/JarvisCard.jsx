@@ -2,7 +2,7 @@ export default function JarvisCard(props){
   const { setClick, setType } = props;
   return(
     <>
-    <img src="../src/assets/Jarvis.png" />
+    <img src="/Jarvis.png" />
     <p className="user-admin-text">How Would you like to Login, <br /> Sir?</p>
     <div className="button-container">
       <button onClick={() => {

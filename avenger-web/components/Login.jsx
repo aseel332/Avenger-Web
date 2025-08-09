@@ -9,7 +9,7 @@ export default function Login(props){
   const { userSignUp, userLogout, adminLogin, userLogin } = useAuth();
   return(
     <>
-    <img className="jarvis-img" src="../src/assets/jarvis_no.png" />
+    <img className="jarvis-img" src="/jarvis_no.png" />
     <p className="login-text">{type == "signup"? "NEW AVENGER" : type + " LOGIN"}</p>
     <div className="input-container">
       <input className="email-input" placeholder="Email" value={email} onChange={(e) => {
