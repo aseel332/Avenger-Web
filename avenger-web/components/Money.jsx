@@ -39,7 +39,7 @@ export default function Money(props){
               const t_account = await getUser(auth.currentUser.uid);
               console.log("All Transactions:", data.transactions);
               setTransactions(data.transactions);
-              setAccount(t_account);
+              setAccount(t_account.user);
             } catch (error) {
               console.error("Failed to load all transactions:", error.message);
             }
