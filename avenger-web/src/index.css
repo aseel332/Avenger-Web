@@ -95,21 +95,19 @@ body{
 }
 
 .modal-content {
-  display: flex;
-  height: fit-content;
+
   align-items: center;
   padding: 15px;
   position: relative;
   z-index: 101;
-  max-width: 600px;
-  width: 100%;
+  width: auto;
+  max-width: 700px;
   margin: 0 auto;
-  min-height: 400px;
-  height: 60%;
+  min-height: 500px;
   border-radius: 10px;
   border: 1px solid red;
   background: black;
-  
+
   display: flex;
   flex-direction: column;
   font-family: sans-serif;
@@ -131,6 +129,7 @@ body{
 display: block;
 text-align: center;
 margin-top: -2px;
+width: 100%;
 }
 
 .modal-sub-body{
