@@ -18,7 +18,7 @@ export default function MissionsList(props){
       await updateDoc(callRef, {
         type: "Completed",
         color: "green",
-        icon: "../src/assets/green-tick.png"
+        icon: "/green-tick.png"
       })
 
       await addDoc(collection(db, "updates"), {
@@ -31,7 +31,7 @@ export default function MissionsList(props){
       await updateDoc(callRef, {
         type: "Failed",
         color: "white",
-        icon: "../src/assets/skull.png"
+        icon: "/skull.png"
       });
 
       await addDoc(collection(db, "updates"), {
@@ -102,7 +102,7 @@ export default function MissionsList(props){
         selectedAvengers: updatedAvengers,
         type: "In-progress",
         color: "yellow",
-        icon: "../src/assets/in-progress.png",
+        icon: "/in-progress.png",
         expiresAt: Date.now() + 1 * 60 * 1000,
         
       });

@@ -16,7 +16,7 @@ export default function AddMission(props){
       name: name, 
       needed: needed, 
       type: "Critical",
-      icon: "../src/assets/critical.png",
+      icon: "/critical.png",
       description: description, 
       color: "red",
       time: time,

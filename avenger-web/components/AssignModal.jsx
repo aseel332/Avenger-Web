@@ -24,7 +24,7 @@ export default function AssignModal(props){
     deleteMission(missions[showAssignModal].id);
     // //delete missions[showAssignModal].position;
     missions[showAssignModal].type = "Pending";
-    missions[showAssignModal].icon = "../src/assets/hourglass.png"
+    missions[showAssignModal].icon = "/assets/hourglass.png"
     // missions[showAssignModal].color = "yellow";
     missions[showAssignModal].outcome = Math.random() <= 0.75? "Sucessful" : "Failed";
     delete missions[showAssignModal].id;
