@@ -77,7 +77,7 @@ hr {
 
 .globe-container{
   position: relative;
-  background-image: url('./assets/globe.png') ;
+  background-image: url('/globe.png') ;
   height: 100%;
   width: 65%;
   
