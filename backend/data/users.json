@@ -14,5 +14,13 @@
     "upiId": "peterparker@dummyupi",
     "accountNumber": 8331485989,
     "balance": 1000
+  },
+  {
+    "userId": "2tRKC9yG5leMdbMXLhQ7fTcONTX2",
+    "name": "Matha",
+    "email": "my@gmail.com",
+    "upiId": "matha@dummyupi",
+    "accountNumber": 7660056001,
+    "balance": 0
   }
 ]

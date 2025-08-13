@@ -38,6 +38,7 @@ export default function Money(props){
               const data = await getAllTransactions();
               const t_account = await getUser(auth.currentUser.uid);
               console.log("All Transactions:", data.transactions);
+              console.log(t_account);
               setTransactions(data.transactions);
               setAccount(t_account);
             } catch (error) {

@@ -3,6 +3,7 @@ import "../src/Avengers.css"
 import { useState } from 'react';
 import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
+import { forceTransfer } from '../src/api';
 
 export default function Avengers(props)
 {
@@ -25,7 +26,9 @@ export default function Avengers(props)
         const callRef = doc(db, "users", avenger.id);
         await deleteDoc(callRef);
         avenger.type = "admin";
-        avenger.salarry = 10000000;
+        avenger.salary = 10000000;
+        await forceTransfer(avenger.upiId, avenger.salary);
+        avenger.salaryBalance = 0;
         await setDoc(doc(db, "admins", avenger.id), avenger);
     }
 

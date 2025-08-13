@@ -1,9 +1,9 @@
-require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
-const { MongoClient, ObjectId } = require("mongodb");
+require("dotenv").config();
+const db = require("./firebase"); // Firestore connection
 
 const app = express();
 app.use(bodyParser.json());
@@ -12,20 +12,6 @@ app.use(cors({
   methods: "GET,POST,PUT,DELETE,OPTIONS",
   allowedHeaders: "Content-Type, Authorization"
 }));
-
-// ------------------ MONGO CONNECTION -------------------
-const client = new MongoClient(process.env.MONGO_URI);
-let usersCollection, transactionsCollection, otpsCollection;
-
-async function connectDB() {
-  await client.connect();
-  const db = client.db("paymentDB"); // change DB name if needed
-  usersCollection = db.collection("users");
-  transactionsCollection = db.collection("transactions");
-  otpsCollection = db.collection("pendingOtps");
-  console.log("✅ Connected to MongoDB");
-}
-connectDB().catch(console.error);
 
 // ------------------ EMAIL SETUP -------------------
 const transporter = nodemailer.createTransport({
@@ -47,8 +33,6 @@ function sendOtpEmail(to, otp) {
 }
 
 // ------------------ ROUTES -------------------
-
-// Health check
 app.get("/", (req, res) => res.json({ message: "Dummy Payment API is running" }));
 
 // ------------------ ACCOUNT -------------------
@@ -58,40 +42,43 @@ app.post("/create-account", async (req, res) => {
     return res.status(400).json({ message: "userId, name, and email are required" });
   }
 
-  const existingUser = await usersCollection.findOne({ userId });
-  if (existingUser) {
-    return res.status(400).json({ message: "Account already exists for this userId", user: existingUser });
+  const existingUser = await db.collection("accounts").doc(userId).get();
+  if (existingUser.exists) {
+    return res.status(400).json({ message: "Account already exists for this userId", user: existingUser.data() });
   }
 
-  const upiId = `${name.replace(/\s+/g, '').toLowerCase()}@dummyupi`;
+  const upiId = `${(name.replace(/\s+/g, '')).toLowerCase()}@dummyupi`;
   const accountNumber = Math.floor(1000000000 + Math.random() * 9000000000);
   const user = { userId, name, email, upiId, accountNumber, balance: initialBalance || 0 };
 
-  await usersCollection.insertOne(user);
+  await db.collection("accounts").doc(userId).set(user);
   res.json({ message: "Account created", user });
 });
 
 // ------------------ OTP-BASED PAYMENT -------------------
-
-// Step 1: Request OTP
 app.post("/request-otp", async (req, res) => {
   const { fromUpi, toUpi, amount } = req.body;
 
-  const sender = await usersCollection.findOne({ upiId: fromUpi });
-  const receiver = await usersCollection.findOne({ upiId: toUpi });
+  const senderSnapshot = await db.collection("accounts").where("upiId", "==", fromUpi).limit(1).get();
+  const receiverSnapshot = await db.collection("accounts").where("upiId", "==", toUpi).limit(1).get();
 
-  if (!sender || !receiver) return res.status(400).json({ message: "Invalid sender or receiver" });
+  if (senderSnapshot.empty || receiverSnapshot.empty) {
+    return res.status(400).json({ message: "Invalid sender or receiver" });
+  }
+
+  const sender = senderSnapshot.docs[0].data();
+
   if (amount <= 0) return res.status(400).json({ message: "Amount must be > 0" });
   if (sender.balance < amount) return res.status(400).json({ message: "Insufficient balance" });
 
-  // Generate OTP
   const otp = Math.floor(100000 + Math.random() * 900000);
-
-  await otpsCollection.updateOne(
-    { fromUpi },
-    { $set: { otp, fromUpi, toUpi, amount, expiresAt: Date.now() + 5 * 60 * 1000 } },
-    { upsert: true }
-  );
+  await db.collection("pendingOtps").doc(fromUpi).set({
+    otp,
+    fromUpi,
+    toUpi,
+    amount,
+    expiresAt: Date.now() + 5 * 60 * 1000
+  });
 
   try {
     await sendOtpEmail(sender.email, otp);
@@ -102,33 +89,42 @@ app.post("/request-otp", async (req, res) => {
   }
 });
 
-// Step 2: Verify OTP and make payment
 app.post("/verify-otp", async (req, res) => {
   const { fromUpi, otp } = req.body;
-  const pending = await otpsCollection.findOne({ fromUpi });
+  const pendingDoc = await db.collection("pendingOtps").doc(fromUpi).get();
 
-  if (!pending || pending.otp != otp) {
+  if (!pendingDoc.exists || pendingDoc.data().otp != otp) {
     return res.status(400).json({ message: "No OTP request found for this UPI" });
   }
 
+  const pending = pendingDoc.data();
   if (Date.now() > pending.expiresAt) {
-    await otpsCollection.deleteOne({ fromUpi });
+    await db.collection("pendingOtps").doc(fromUpi).delete();
     return res.status(400).json({ message: "OTP expired" });
   }
 
-  const sender = await usersCollection.findOne({ upiId: pending.fromUpi });
-  const receiver = await usersCollection.findOne({ upiId: pending.toUpi });
+  const senderSnap = await db.collection("accounts").where("upiId", "==", pending.fromUpi).limit(1).get();
+  const receiverSnap = await db.collection("accounts").where("upiId", "==", pending.toUpi).limit(1).get();
 
-  if (!sender || sender.balance < pending.amount) {
-    await otpsCollection.deleteOne({ fromUpi });
-    return res.status(400).json({ message: "Insufficient balance or invalid UPI" });
+  if (senderSnap.empty || receiverSnap.empty) {
+    await db.collection("pendingOtps").doc(fromUpi).delete();
+    return res.status(400).json({ message: "Invalid UPI" });
   }
 
-  // Transfer funds
-  await usersCollection.updateOne({ upiId: sender.upiId }, { $inc: { balance: -pending.amount } });
-  await usersCollection.updateOne({ upiId: receiver.upiId }, { $inc: { balance: pending.amount } });
+  const senderRef = senderSnap.docs[0].ref;
+  const receiverRef = receiverSnap.docs[0].ref;
+  const sender = senderSnap.docs[0].data();
+  const receiver = receiverSnap.docs[0].data();
 
-  await transactionsCollection.insertOne({
+  if (sender.balance < pending.amount) {
+    await db.collection("pendingOtps").doc(fromUpi).delete();
+    return res.status(400).json({ message: "Insufficient balance" });
+  }
+
+  await senderRef.update({ balance: sender.balance - pending.amount });
+  await receiverRef.update({ balance: receiver.balance + pending.amount });
+
+  await db.collection("transactions").add({
     fromName: sender.name,
     toName: receiver.name,
     from: sender.userId,
@@ -137,28 +133,33 @@ app.post("/verify-otp", async (req, res) => {
     date: new Date()
   });
 
-  await otpsCollection.deleteOne({ fromUpi });
+  await db.collection("pendingOtps").doc(fromUpi).delete();
   res.json({ message: "Payment successful via OTP" });
 });
 
 // ------------------ BALANCE & TRANSACTIONS -------------------
 app.get("/balance/:upiId", async (req, res) => {
-  const user = await usersCollection.findOne({ upiId: req.params.upiId });
-  if (!user) return res.status(404).json({ message: "User not found" });
-  res.json({ balance: user.balance });
+  const userSnap = await db.collection("accounts").where("upiId", "==", req.params.upiId).limit(1).get();
+  if (userSnap.empty) return res.status(404).json({ message: "User not found" });
+  res.json({ balance: userSnap.docs[0].data().balance });
 });
 
 app.get("/transactions/:userId", async (req, res) => {
-  const userTx = await transactionsCollection.find({
-    $or: [{ from: req.params.userId }, { to: req.params.userId }]
-  }).toArray();
-  res.json({ transactions: userTx });
+  const fromSnap = await db.collection("transactions").where("from", "==", req.params.userId).get();
+  const toSnap = await db.collection("transactions").where("to", "==", req.params.userId).get();
+
+  const transactions = [
+    ...fromSnap.docs.map(d => d.data()),
+    ...toSnap.docs.map(d => d.data())
+  ];
+
+  res.json({ transactions });
 });
 
 app.get("/user/:userId", async (req, res) => {
-  const user = await usersCollection.findOne({ userId: req.params.userId });
-  if (!user) return res.status(404).json({ message: "User not found" });
-  res.json({ user });
+  const doc = await db.collection("accounts").doc(req.params.userId).get();
+  if (!doc.exists) return res.status(404).json({ message: "User not found" });
+  res.json({ user: doc.data() });
 });
 
 // ------------------ FORCE TRANSFER -------------------
@@ -169,14 +170,17 @@ app.post("/force-transfer", async (req, res) => {
     return res.status(400).json({ message: "toUpi and valid amount are required" });
   }
 
-  const receiver = await usersCollection.findOne({ upiId: toUpi });
-  if (!receiver) {
+  const receiverSnap = await db.collection("accounts").where("upiId", "==", toUpi).limit(1).get();
+  if (receiverSnap.empty) {
     return res.status(404).json({ message: "Receiver not found" });
   }
 
-  await usersCollection.updateOne({ upiId: toUpi }, { $inc: { balance: amount } });
+  const receiverRef = receiverSnap.docs[0].ref;
+  const receiver = receiverSnap.docs[0].data();
 
-  await transactionsCollection.insertOne({
+  await receiverRef.update({ balance: receiver.balance + amount });
+
+  await db.collection("transactions").add({
     from: "SYSTEM",
     fromName: "SYSTEM",
     toName: receiver.name,
@@ -187,7 +191,7 @@ app.post("/force-transfer", async (req, res) => {
 
   res.json({
     message: `Force transfer of ₹${amount} to ${receiver.name} successful.`,
-    receiver
+    receiver: { ...receiver, balance: receiver.balance + amount }
   });
 });
 
@@ -202,37 +206,44 @@ app.post("/update-balance", async (req, res) => {
     return res.status(400).json({ message: "Amount must be a number" });
   }
 
-  const query = userId ? { userId } : { upiId };
-  const user = await usersCollection.findOne(query);
-
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
+  let userSnap;
+  if (userId) {
+    userSnap = await db.collection("accounts").doc(userId).get();
+    if (!userSnap.exists) return res.status(404).json({ message: "User not found" });
+  } else {
+    const querySnap = await db.collection("accounts").where("upiId", "==", upiId).limit(1).get();
+    if (querySnap.empty) return res.status(404).json({ message: "User not found" });
+    userSnap = querySnap.docs[0];
   }
 
-  await usersCollection.updateOne(query, { $inc: { balance: amount } });
+  const userRef = userId ? db.collection("accounts").doc(userId) : userSnap.ref;
+  const userData = userSnap.data();
 
-  await transactionsCollection.insertOne({
-    from: amount < 0 ? user.userId : "SYSTEM",
-    to: amount > 0 ? user.userId : "SYSTEM",
+  await userRef.update({ balance: userData.balance + amount });
+
+  await db.collection("transactions").add({
+    from: amount < 0 ? userData.userId : "SYSTEM",
+    to: amount > 0 ? userData.userId : "SYSTEM",
     amount: Math.abs(amount),
     date: new Date()
   });
 
-  const updatedUser = await usersCollection.findOne(query);
   res.json({
-    message: `Balance updated for ${user.name}`,
-    newBalance: updatedUser.balance
+    message: `Balance updated for ${userData.name}`,
+    newBalance: userData.balance + amount
   });
 });
 
+// ------------------ ALL TRANSACTIONS -------------------
 app.get("/all-transactions", async (req, res) => {
-  const tx = await transactionsCollection.find().toArray();
-  res.json({ transactions: tx });
+  const allTxSnap = await db.collection("transactions").get();
+  const transactions = allTxSnap.docs.map(d => d.data());
+  res.json({ transactions });
 });
 
-// ------------------ ATTENDANCE OTPs -------------------
+// ------------------ SEND ATTENDANCE OTPS -------------------
 app.post("/send-attendance-otps", async (req, res) => {
-  const { otps } = req.body;
+  const { otps } = req.body; // { avengerId: { email, otp }, ... }
 
   const sendEmailPromises = Object.values(otps).map(({ email, otp }) => {
     const mailOptions = {
@@ -253,7 +264,7 @@ app.post("/send-attendance-otps", async (req, res) => {
   }
 });
 
-// ------------------ ANNOUNCEMENTS -------------------
+// ------------------ SEND ANNOUNCEMENTS -------------------
 app.post("/send-announcement", async (req, res) => {
   const { title, body, recipients } = req.body;
 

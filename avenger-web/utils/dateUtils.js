@@ -96,5 +96,42 @@ function parseCustomTimestamp(str) {
   return date;
 }
 
+export function formatDMY(timestamp) {
+  if (!timestamp) return "";
+
+  let dateObj;
+  if (typeof timestamp.toDate === "function") {
+    dateObj = timestamp.toDate();
+  } else if (typeof timestamp._seconds === "number") {
+    dateObj = new Date(timestamp._seconds * 1000 + Math.floor(timestamp._nanoseconds / 1000000));
+  } else {
+    return "";
+  }
+
+  const day = String(dateObj.getDate()).padStart(2, "0");
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const year = String(dateObj.getFullYear()).slice(-2);
+
+  return `${day}/${month}/${year}`;
+}
+
+export function formatHM(timestamp) {
+  if (!timestamp) return "";
+
+  let dateObj;
+  if (typeof timestamp.toDate === "function") {
+    dateObj = timestamp.toDate();
+  } else if (typeof timestamp._seconds === "number") {
+    dateObj = new Date(timestamp._seconds * 1000 + Math.floor(timestamp._nanoseconds / 1000000));
+  } else {
+    return "";
+  }
+
+  const hours = dateObj.getHours();
+  const minutes = String(dateObj.getMinutes()).padStart(2, "0");
+
+  return `${hours}:${minutes}`;
+}
+
 
 

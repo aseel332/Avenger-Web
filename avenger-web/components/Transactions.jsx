@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useState, useEffect } from "react";
-import { extractDate, extractTime, formatDate, formatTime, isExpired } from "../utils/dateUtils";
+import { formatDMY, formatHM } from "../utils/dateUtils";
 import { getAllTransactions } from "../src/api";
 import PersonalTransactions from "./PersonalTransactions";
 
@@ -56,8 +56,8 @@ function getName(avengerId) {
         <>
           <div className="header-card">
             <div className="attendance-name">{`${transaction.fromName} - ${transaction.toName}`}</div>
-            <div className="attendance-sub-head">Date: <span className="value-info">{extractDate(transaction.date)}</span></div>
-            <div className="attendance-sub-head">Time: <span className="value-info">{extractTime(transaction.date)}</span></div>
+            <div className="attendance-sub-head">Date: <span className="value-info">{ formatDMY(transaction.date)}</span></div>
+            <div className="attendance-sub-head">Time: <span className="value-info">{formatHM(transaction.date)}</span></div>
           </div>
           <h2>Amount: ${transaction.amount} </h2>
         </>

@@ -1,5 +1,5 @@
 import { auth } from "../firebase";
-import { extractDate, extractTime } from "../utils/dateUtils";
+import { extractDate, extractTime, formatDMY, formatHM } from "../utils/dateUtils";
 import { useState } from "react";
 import PersonalAccount from "./PersonalAccount";
 
@@ -35,7 +35,7 @@ export default function PersonalTransactions(props){
                 <h3 className="h-class" style={{width: "90%"}}>From {transaction.fromName}</h3>
                 <h3 className="h-class" style={{color: "green", textAlign: "right"}}>${transaction.amount}</h3>
               </div>
-              <h5 className="h-class">Date: {extractDate(transaction.date)} - Time: {extractTime(transaction.date)}</h5>
+              <h5 className="h-class">Date: {formatDMY(transaction.date)} - Time: {formatHM(transaction.date)}</h5>
               </div>
             )
           }
@@ -46,7 +46,7 @@ export default function PersonalTransactions(props){
                 <h3 className="h-class" style={{width: "90%"}}>To {transaction.toName}</h3>
                 <h3 className="h-class" style={{color: "red", textAlign: "right"}}>${transaction.amount}</h3>
               </div>
-              <h5 className="h-class">Date: {extractDate(transaction.date)} - Time: {extractTime(transaction.date)}</h5>
+              <h5 className="h-class">Date: {formatDMY(transaction.date)} - Time: {formatHM(transaction.date)}</h5>
               </div>
             )
           }
