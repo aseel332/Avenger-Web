@@ -1,5 +1,4 @@
-const BASE_URL = "https://avenger-web.onrender.com";
-//import.meta.env.VITE_BACKEND_API; // Change this if backend is deployed
+const BASE_URL = import.meta.env.VITE_BACKEND_API; 
 
 async function apiRequest(endpoint, method = "GET", body = null) {
   const config = {
