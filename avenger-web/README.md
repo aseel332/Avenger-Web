@@ -1,4 +1,4 @@
-<h3 style="color:red;"> Disclaimer
+## Disclaimer
 
 - This project was built as part of a learning curve, so there may be mistakes and imperfections in the code or structure.  
 - **Areas for improvement:**  
@@ -12,14 +12,11 @@
 
 # Avenger-Web
 
-## Overview
+
 
 ## Overview
 
 **🏆 Winner of 3rd Prize at Ahmedabad University**
-
-Avenger-Web is a powerful and centralized platform designed to manage the entire Avengers team workflow efficiently. It allows seamless coordination between admins and user Avengers, ensuring tasks, missions, and financial operations are handled smoothly. The system integrates task management, attendance tracking, financial transactions, and real-time updates to maintain transparency and productivity across the team. By combining these functionalities, Avenger-Web provides a one-stop solution for monitoring and enhancing team performance.
-
 
 Avenger-Web is a powerful and centralized platform designed to manage the entire Avengers team workflow efficiently. It allows seamless coordination between admins and user Avengers, ensuring tasks, missions, and financial operations are handled smoothly. The system integrates task management, attendance tracking, financial transactions, and real-time updates to maintain transparency and productivity across the team. By combining these functionalities, Avenger-Web provides a one-stop solution for monitoring and enhancing team performance.
 
