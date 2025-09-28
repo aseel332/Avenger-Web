@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
 require("dotenv").config();
-const db = require("./firebase"); // Firestore connection
+const db = require("./firebase.js"); // Firestore connection
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,7 +15,9 @@ app.use(cors({
 
 // ------------------ EMAIL SETUP -------------------
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
