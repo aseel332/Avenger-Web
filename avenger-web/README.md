@@ -5,7 +5,6 @@
   - Better organization of components for cleaner structure.  
   - Smoother navigation and optimized data fetching/loading.  
   - Reducing frontend-heavy logic and improving separation of concerns.  
-  - Securing exposed information and sensitive data.  
   - Using custom hooks for cleaner and more reusable code.  
 - I am actively working on a new collaborative project where I am applying these improvements, refining my skills, and implementing best practices learned from Avenger-Web.
 
