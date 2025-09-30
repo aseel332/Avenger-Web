@@ -7,8 +7,8 @@ import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 
 // Initialize Cloudinary instance
-const cloudName = "dhnnmlnk6"; 
-const uploadPreset = "my_unsigned_preset"; 
+const cloudName = import.meta.env.VITE_CLOUD_NAME; 
+const uploadPreset = import.meta.env.VITE_PRESET; 
 
 const cld = new Cloudinary({
   cloud: {
