@@ -1,4 +1,4 @@
-// utils/dateUtils.js
+
 export const formatDate = (timestamp) => {
   const date = timestamp.toDate();
   return date.toLocaleDateString("en-GB"); // e.g., "12/12/2025"
@@ -18,21 +18,21 @@ export const isExpired = (expiresAt) => {
 };
 
 export function runIfPastOrToday(dateStr, callback) {
-  // Convert the input date string to a Date object
+
   const [day, month, year] = dateStr.split('/').map(Number);
   const fullYear = year < 100 ? 2000 + year : year;
   const inputDate = new Date(fullYear, month - 1, day);
 
-  // Get today's date (without time)
+  
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Format today's date as DD/MM/YY
+
   const formattedToday = String(today.getDate()).padStart(2, '0') + '/' +
                          String(today.getMonth() + 1).padStart(2, '0') + '/' +
                          String(today.getFullYear()).toString().slice(-2);
 
-  // Calculate date one month after today
+
   const nextMonthDate = new Date(today);
   nextMonthDate.setMonth(today.getMonth() + 1);
 
@@ -42,12 +42,12 @@ export function runIfPastOrToday(dateStr, callback) {
 
 
 
-  // Run the callback if the input date is today or before
+
   if (inputDate <= today) {
     callback(formattedToday, formattedNextMonthDate);
   }
 
-  // Optionally return both dates
+
  
 }
 
@@ -85,9 +85,9 @@ export function getFormattedTimeFromCustomString(str) {
   return `${hours}:${minutes}`;
 }
 
-// Helper function to parse the custom timestamp format
+
 function parseCustomTimestamp(str) {
-  // Remove 'at' and 'UTC...' parts to simplify
+
   const cleaned = str.replace(/ at /, ', ').replace(/ UTC.*$/, '');
   const date = new Date(cleaned);
   if (isNaN(date)) {
