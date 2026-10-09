@@ -24,29 +24,3 @@
     "balance": 0
   }
 ]
-[
-  {
-    "userId": "CREmNjPlxuURDxqwaFN5Mdi1PgL2",
-    "name": "Thor Odinson",
-    "email": "aryan.t3@ahduni.edu.in",
-    "upiId": "thorodinson@dummyupi",
-    "accountNumber": 1393584596,
-    "balance": 99878800
-  },
-  {
-    "userId": "5kM4ka0aoPcjcbOUAZPr5D6eejJ3",
-    "name": "Peter Parker",
-    "email": "lakadia.aseel786@gmail.com",
-    "upiId": "peterparker@dummyupi",
-    "accountNumber": 8331485989,
-    "balance": 1000
-  },
-  {
-    "userId": "2tRKC9yG5leMdbMXLhQ7fTcONTX2",
-    "name": "Matha",
-    "email": "my@gmail.com",
-    "upiId": "matha@dummyupi",
-    "accountNumber": 7660056001,
-    "balance": 0
-  }
-]
